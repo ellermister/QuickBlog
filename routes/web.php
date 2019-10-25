@@ -19,3 +19,9 @@ Route::get('/blog', function () {
 });
 
 Route::get('/admin/platforms', 'Admin\PlatformsController@showListPage');
+Route::get('/admin/post', 'Admin\PostController@showPostList');
+Route::get('/admin/post/new', 'Admin\PostController@showEditorPage');
+Route::post('/admin/post/new', 'Admin\PostController@newPostInstance');
+
+Route::get('/admin/post/{id}', 'Admin\PostController@showEditorPageWithPost');
+Route::post('/admin/post/{id}', 'Admin\PostController@updatePostInstance');

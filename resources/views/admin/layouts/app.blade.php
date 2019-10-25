@@ -43,6 +43,7 @@
 <script src="/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
 <script src="/assets/vendor/custom-js/jquery.multi-select.html"></script>
 <script src="/assets/libs/js/main-js.js"></script>
+@yield('scripts')
 </body>
 
 </html>
