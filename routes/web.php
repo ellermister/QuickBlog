@@ -25,3 +25,11 @@ Route::post('/admin/post/new', 'Admin\PostController@newPostInstance');
 
 Route::get('/admin/post/{id}', 'Admin\PostController@showEditorPageWithPost');
 Route::post('/admin/post/{id}', 'Admin\PostController@updatePostInstance');
+
+
+Route::get('/admin/category', 'Admin\CategoryController@showListPage');
+Route::get('/admin/category/new', 'Admin\CategoryController@showEditorPage');
+Route::post('/admin/category/new', 'Admin\CategoryController@newCategoryInstance');
+
+Route::get('/admin/category/{id}', 'Admin\CategoryController@showEditorPageWithCategory');
+Route::post('/admin/category/{id}', 'Admin\CategoryController@updateCategoryInstance');

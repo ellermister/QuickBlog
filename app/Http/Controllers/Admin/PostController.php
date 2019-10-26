@@ -33,9 +33,7 @@ class PostController extends Controller
             'title', 'cat_id', 'contents', 'is_show', 'keywords', 'description'
         ]);
 
-        if (isset($data['is_show'])) {
-            $data['is_show'] = 1;
-        }
+        $data['is_show'] = ($data['is_show'] ?? 0) ? 1 : 0;
         if ($ret = Post::newPostInstance($data)) {
             return redirect('/admin/post')->with('message', '新建成功');
         }
@@ -69,6 +67,12 @@ class PostController extends Controller
         return view('admin.post', ['post' => $post, 'category' => $category]);
     }
 
+    /**
+     * 更新博文
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
     public function updatePostInstance(Request $request, $id)
     {
         $post = Post::getPost($id);
@@ -80,9 +84,7 @@ class PostController extends Controller
             'title', 'cat_id', 'contents', 'is_show', 'keywords', 'description'
         ]);
 
-        if (isset($data['is_show'])) {
-            $data['is_show'] = 1;
-        }
+        $data['is_show'] = ($data['is_show'] ?? 0) ? 1 : 0;
         if ($post->update($data)) {
             return back()->with('message', '新建成功');
         }
