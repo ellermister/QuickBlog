@@ -73,6 +73,7 @@ class CategoryController extends Controller
         }
 
         $data = $request->only(['name', 'is_show']);
+        $data = array_filter($data);
 
         $data['is_show'] = ($data['is_show'] ?? 0) ? 1 : 0;
         if ($category->update($data)) {

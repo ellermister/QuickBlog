@@ -26,6 +26,9 @@
 
 <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+        @include('admin.shared.error')
+
         <div class="card">
             <h5 class="card-header">所有平台</h5>
             <div class="card-body">
@@ -49,8 +52,8 @@
                             <td>{{$item->describe}}</td>
                             <td>{{$item->cookieStatusText()}}</td>
                             <td>
-                                <a href="#" class="btn btn-info active">导入文章</a>
-                                <a href="#" class="btn btn-success active">设置账户</a>
+                                <a href="/admin/platforms/{{$item->id}}/sync" class="btn btn-info active">导入文章</a>
+                                <a href="/admin/platforms/{{$item->id}}/account" class="btn btn-success active">设置账户</a>
                             </td>
                         </tr>
                     @endforeach
