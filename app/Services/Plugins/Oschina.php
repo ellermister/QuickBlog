@@ -217,7 +217,7 @@ class Oschina extends Plugin
      * 作为平台设置页展示关联使用
      * @return array
      */
-    public function categpryList()
+    public function categoryList()
     {
         $list = [];
         $uid = $this->getUid();

@@ -1,71 +1,96 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## QuickBlog
 
-## About Laravel
+一文多发系统，即一个平台文章以及维护编辑内容，文章自动同步到多个平台并更新。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+程序采用PHP编写，使用Laravel框架为基础。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 支持的平台
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+目前QuickBlog支持以下平台。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+- [x] [OSCHINA](https://www.oschina.net/)
+- [ ] [CSDN](https://www.csdn.net/)
+- [ ] [SegmentFault](https://segmentfault.com/)
+- [ ] 简书
+- [ ] 博客园
+- [ ] 知乎
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 环境使用
 
-## Security Vulnerabilities
+PHP：建议7.0以上
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+MySQL：5.6以上
+
+
 
 ## License
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+暂无！
+
+
+
+## 插件
+
+博客平台发布采用插件式开发，隔三差五零散拾写，很多细节不太规范。
+
+具体参考如下：
+
+所有插件必须继承于 `App\Services\Plugin`
+
+所有插件必须存在于`app/Services/Plugins`目录下，以大驼峰法命名。
+
+目前插件是以单文件的形式存在。
+
+如：`app/Services/Plugins/Oschina.php`
+
+### 同步文章
+
+作为一个插件，最重要的是实现同步文章的这个过程。
+
+所以，首先实现这个方法。
+
+```php
+
+```
+
+
+
+在同步文章时，可以通过`$postsScheme->third_id`是否为空来分辨当前任务是更新还是新增。
+
+当然，`$postsScheme->chird_url`这个值也是可以的，不过需要注意的是，这两个值都需要你自行维护。
+
+当文章新增更新完成时，你都要及时将这两个值更新为最新的。
+
+third_id为第三方平台对应博文的ID，chird_url为第三方平台对应博文的URL。
+
+
+
+### 分类关联
+
+如果你所对接的博客平台拥有自己的分类，那么你可以通过此方法和QuickBlog内置的分类进行对接关联。
+
+在这里你只需要实现获取第三方平台分类的名称和id就好，id是以varchar(255)存储于数据库的，所以不局限于int型的ID。
+
+```php
+
+```
+
+需要记住的是，就算你的平台没有分类，也要在这里实现，并返回空数组。
+
+当你的插件编写成功后，你可以在对应平台的设置中找到关联分类。
+
+那么假设你的分类关联成功了，当平台进行同步文章时，你的插件将会被动调起。
+
+当你在update方法中更新文章时，就就可以通过如下方法获得这篇文章关联的平台ID和名称。
+
+```php
+
+```
+
