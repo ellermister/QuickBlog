@@ -22,6 +22,8 @@ Route::get('/admin/platforms', 'Admin\PlatformsController@showListPage');
 Route::get('/admin/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');
 Route::post('/admin/platforms/{id}/account', 'Admin\PlatformsController@updateAccount');
 Route::get('/admin/platforms/{id}/sync', 'Admin\PlatformsController@createSchemes');
+Route::post('/admin/platforms/{id}/category/union', 'Admin\PlatformsController@createUnionCategory');
+Route::get('/admin/platforms/{id}/category/union', 'Admin\PlatformsController@getUnionCategoryList');
 
 Route::get('/admin/post', 'Admin\PostController@showPostList');
 Route::get('/admin/post/new', 'Admin\PostController@showEditorPage');
