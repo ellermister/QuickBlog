@@ -52,8 +52,8 @@
                             <td>{{$item->describe}}</td>
                             <td>{{$item->cookieStatusText()}}</td>
                             <td>
-                                <a href="/admin/platforms/{{$item->id}}/sync" class="btn btn-info active">导入文章</a>
-                                <a href="/admin/platforms/{{$item->id}}/account" class="btn btn-success active">设置账户</a>
+                                <a href="/admin/platforms/{{$item->id}}/sync" class="btn btn-info active">同步</a>
+                                <a href="/admin/platforms/{{$item->id}}/account" class="btn btn-success active">设置</a>
                             </td>
                         </tr>
                     @endforeach

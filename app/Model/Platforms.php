@@ -78,7 +78,7 @@ class Platforms extends Model
         $pluginManager = app(\App\Services\PluginManager::class);
         foreach($pluginManager->getPlugins() as $plugin){
             if($plugin->name == $this->name){
-                return $plugin->categpryList();
+                return $plugin->categoryList();
             }
         }
         return [];

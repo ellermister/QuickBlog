@@ -11,11 +11,11 @@
 目前QuickBlog支持以下平台。
 
 - [x] [OSCHINA](https://www.oschina.net/)
-- [ ] [CSDN](https://www.csdn.net/)
+- [x] [CSDN](https://www.csdn.net/)
 - [ ] [SegmentFault](https://segmentfault.com/)
-- [ ] 简书
-- [ ] 博客园
-- [ ] 知乎
+- [ ] [简书](https://www.jianshu.com/)
+- [ ] [博客园](https://www.cnblogs.com/)
+- [ ] [知乎](https://www.zhihu.com)
 
 
 
