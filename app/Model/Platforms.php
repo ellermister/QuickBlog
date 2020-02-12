@@ -58,4 +58,29 @@ class Platforms extends Model
         }
         return $data[$name] ?? $default;
     }
+
+    /**
+     * 获取插件配置信息
+     * @param $name
+     * @return array
+     */
+    public static function getPlatformInfo($name)
+    {
+        return self::where('name', $name)->first();
+    }
+
+    /**
+     * 获取分类列表
+     * @return array
+     */
+    public function getCategoryList()
+    {
+        $pluginManager = app(\App\Services\PluginManager::class);
+        foreach($pluginManager->getPlugins() as $plugin){
+            if($plugin->name == $this->name){
+                return $plugin->categpryList();
+            }
+        }
+        return [];
+    }
 }

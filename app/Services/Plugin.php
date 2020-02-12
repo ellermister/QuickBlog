@@ -1,32 +1,32 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: ellermister
+ * Date: 2020/1/9
+ * Time: 22:49
+ */
+
 namespace App\Services;
-
-
-use App\Model\Post;
+use App\Model\Platforms;
+use App\Model\PostsSchemes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 
-class  Plugin implements Arrayable
+abstract class Plugin implements Arrayable
 {
 
-    protected $path;
-
+    protected $name;
+    protected $version;
     protected $packageInfo;
-
-    protected $enabled = false;
-
-    protected $namespace;
-
-    public function __construct($path, $packageInfo)
+    function __construct()
     {
-        $this->path = $path;
-        $this->packageInfo = $packageInfo;
+        $this->packageInfo = Platforms::getPlatformInfo($this->name);
     }
 
     public function __get($name)
     {
-        $this->packageInfoAttribute(Str::snake($name, '-'));
+        return $this->packageInfoAttribute(Str::snake($name, '-'));
     }
 
     public function __isset($name)
@@ -36,37 +36,7 @@ class  Plugin implements Arrayable
 
     public function packageInfoAttribute($name)
     {
-        return Arr::get($this->packageInfo, $name);
-    }
-
-    public function getNameSpace()
-    {
-        return $this->namespace;
-    }
-    public function setNameSpace($namespace)
-    {
-        $this->namespace = $namespace;
-        return $this;
-    }
-
-
-    /**
-     * @param bool $enabled
-     * @return Plugin
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-        return $this;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
+        return Arr::get($this->packageInfo->toArray(), $name);
     }
 
     /**
@@ -79,9 +49,46 @@ class  Plugin implements Arrayable
         return (array) array_merge([
             'name'          => $this->name,
             'version'       => $this->getVersion(),
-            'path'          => $this->path
         ], $this->packageInfo);
     }
 
+    public function getVersion()
+    {
+        $this->version ?? '';
+    }
+
+    /**
+     * 分类列表接口
+     * 必须返回键值对 [ '分类ID' => '分类名]
+     * @return array
+     */
+    public function categpryList()
+    {
+        return [];
+    }
+
+    /**
+     * 更新同步计划
+     * 插件需要继承并实现
+     * @param PostsSchemes $postsScheme
+     * @return bool|string
+     */
+    abstract public function updateScheme(PostsSchemes $postsScheme);
+    // 同步过程，需要自行try catch捕获，防止发生错误。
+
+    // 首先判断是否是需要同步的计划
+    // if( $postsScheme->isWaitSyncStatus() ) {}
+
+    // 开始同步时需要将计划设置为正在同步，防止重复同步。
+    // $postsScheme->setSynching();
+
+    // 同步成功，需要将计划设置为成功。
+    // $postsScheme->setSynced(); //设置已经同步完成
+
+    // 如果同步失败，则需要将计划设置为失败状态。
+    // $postsScheme->setSyncFailed();// 同步失败，设置状态
+
+    // 如果同步出错，需要返回错误字符串，将会在命令展示。
+    // return $exception->getMessage();
 
 }

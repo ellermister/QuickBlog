@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Model\PostsSchemes;
 use Illuminate\Console\Command;
 
 class PostSync extends Command
@@ -39,5 +40,17 @@ class PostSync extends Command
     {
         //
         $this->info('done!');
+        $pluginManager = app(\App\Services\PluginManager::class);
+        foreach($pluginManager->getPlugins() as $plugin){
+            $postScheme = PostsSchemes::getSchemes($plugin->name);
+            foreach ($postScheme as $scheme){
+                $this->info('同步计划 post_id:'.$scheme->post_id);
+                $error = $plugin->updateScheme($scheme);
+                if(is_string($error)){
+                    $this->error($error);
+                }
+            }
+
+        }
     }
 }
