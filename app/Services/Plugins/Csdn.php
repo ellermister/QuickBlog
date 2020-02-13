@@ -34,7 +34,7 @@ class Csdn extends Plugin
         sleep(1);
         // TODO: Implement updateScheme() method.
         if($postsScheme->isWaitSyncStatus()){
-            $uid = $this->getUid();
+            // $uid = $this->getUid();
             //等待同步
             $postsScheme->setSynching(); // 设置目前正在同步
             try{
@@ -80,11 +80,11 @@ class Csdn extends Plugin
         $playload = [
             'authorized_status' => false,
             'categories'        => '',
-            'content'           => $Parsedown->text($content),//貌似需要转换
+            'content'           => $Parsedown->text($content),
             'markdowncontent'   => $content,
             'not_auto_saved'    => "1",
             'original_link'     => "",
-            'readType'          => "private",
+            'readType'          => "private",// public
             'source'            => "pc_mdeditor",
             'status'            => "0",
             'tags'              => "",
