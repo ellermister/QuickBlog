@@ -13,7 +13,7 @@
 - [x] [OSCHINA](https://www.oschina.net/)
 - [x] [CSDN](https://www.csdn.net/)
 - [x] [SegmentFault](https://segmentfault.com/)
-- [ ] [简书](https://www.jianshu.com/)
+- [x] [简书](https://www.jianshu.com/)
 - [ ] [博客园](https://www.cnblogs.com/)
 - [ ] [知乎](https://www.zhihu.com)
 
