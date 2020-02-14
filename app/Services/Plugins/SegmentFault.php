@@ -34,10 +34,11 @@ class SegmentFault extends Plugin
             //等待同步
             $postsScheme->setSynching(); // 设置目前正在同步
             try{
+                $post = $postsScheme->getPost();
+                $tags = $this->getTags(explode(',', $post->keywords));
                 if(empty($postsScheme->third_id)){
                     //首次同步
-                    $post = $postsScheme->getPost();
-                    $res = $this->sendPost($post->title, $post->contents);
+                    $res = $this->sendPost($post->title, $post->contents, $tags);
                     if($res){
                         $postsScheme->third_id = $res['id'];
                         $postsScheme->chird_url = $res['url'];
@@ -45,8 +46,7 @@ class SegmentFault extends Plugin
                     }
                 }else{
                     // 更新同步
-                    $post = $postsScheme->getPost();
-                    $res = $this->sendPost($post->title, $post->contents,$postsScheme->third_id);
+                    $res = $this->sendPost($post->title, $post->contents,$tags, $postsScheme->third_id);
                     if($res){
                         $postsScheme->third_id = $res['id'];
                         $postsScheme->chird_url = $res['url'];
@@ -61,7 +61,16 @@ class SegmentFault extends Plugin
         return false;
     }
 
-    protected function sendPost($title, $content, $thirdId = null)
+    /**
+     * 新文章/更新文章
+     * @param $title
+     * @param $content
+     * @param $tags
+     * @param null $thirdId
+     * @return mixed
+     * @throws Exception
+     */
+    protected function sendPost($title, $content, array $tags, $thirdId = null)
     {
         $referer = 'https://segmentfault.com/write';
         if($thirdId){
@@ -69,6 +78,9 @@ class SegmentFault extends Plugin
             $token = $this->getToken($referer);
         }else{
             $token = $this->getToken($referer);
+        }
+        if(empty($token)){
+            throw new Exception("同步文章时，token获取失败, url:".$referer);
         }
 
         $url = "https://segmentfault.com/api/articles/add?_=".$token;
@@ -80,7 +92,7 @@ class SegmentFault extends Plugin
             'created'   => '',
             'weibo'     => 0,
             'license'   => 0,
-            'tags'      => '1040000000089436,1040000000089899',//标签，待更新
+            'tags'      => implode(',', $tags),
             'title'     => $title,
             'text'      => $content,
             'articleId' => '',
@@ -122,8 +134,12 @@ class SegmentFault extends Plugin
         }
         $response = $response->getBody();
         $data = json_decode($response->getContents(), true);
-        if(is_array($data) && isset($data['status']) && $data['status'] == 0 && isset($data["data"])){
-            return $data["data"];// [id => '', url => '']
+        if(is_array($data) && isset($data['status'])){
+            if($data['status'] == 0 && isset($data["data"])){
+                return $data["data"];// [id => '', url => '']
+            }
+            if(isset($data['data'][1]))
+                throw new Exception("更新文章时遇到错误：".implode(',', array_values($data['data'][1])));
         }
         throw new Exception("更新文章时，响应JSON解析失败:".json_last_error_msg());
     }
@@ -211,11 +227,6 @@ class SegmentFault extends Plugin
             Log::error($error);
             throw new Exception($error);
         }catch (BadResponseException $exception){
-            // 需要判断文章是否存在
-//            if ($exception->hasResponse()) {
-//                echo $url.PHP_EOL;
-//                var_dump($exception->getResponse()->getBody()->getContents());exit;
-//            }
             throw new Exception($exception->getMessage());
         }
         $response = $response->getBody();
@@ -224,5 +235,42 @@ class SegmentFault extends Plugin
             return $data["data"];
         }
         throw new Exception("保存草稿时遇到错误，响应JSON解析失败:".json_last_error_msg());
+    }
+
+    /**
+     * 获取文章的标签
+     * 通过文章原始标签兑换segmentfault的标签
+     * @param array $keywordArr
+     * @return array
+     */
+    protected function getTags(array $keywordArr = [])
+    {
+        $referer = 'https://segmentfault.com/write';
+        $token = $this->getToken($referer);
+        $url = "https://segmentfault.com/api/techTags?_=".$token;
+        $client = new Client();
+        $response = $client->request('get', $url, [
+            'headers' => [
+                'Cookie'           => $this->getCookie(),
+                'user-agent'       => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+                'referer'          => $referer,
+            ]
+        ]);
+        $contents = $response->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $tags = [];
+        if(is_array($data) && isset($data['data'])){
+            foreach($data['data'] as $category){
+                foreach($category as $tag){
+                    foreach($keywordArr as $currentKeyword){
+                        if(strtolower($tag['name']) == strtolower($currentKeyword)){
+                            $tags[] =$tag['id'];
+                        }
+                    }
+
+                }
+            }
+        }
+        return $tags;
     }
 }
