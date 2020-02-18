@@ -15,7 +15,7 @@
 - [x] [SegmentFault](https://segmentfault.com/)
 - [x] [简书](https://www.jianshu.com/)
 - [ ] [博客园](https://www.cnblogs.com/)
-- [ ] [知乎](https://www.zhihu.com)
+- [x] [知乎](https://www.zhihu.com)
 
 
 
