@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Category extends Model
 {
@@ -16,6 +17,19 @@ class Category extends Model
     public static function getList()
     {
         return self::all();
+    }
+
+    /**
+     * 获取可视分类
+     * @return mixed
+     */
+    public static function getShowList()
+    {
+        return self::leftJoin("posts",'posts.cat_id','categories.id')
+            ->groupBy("cat_id")->select(DB::raw("categories.*"),DB::raw("count(cat_id) as count"))
+            ->orderBy('count','desc')
+            ->where('categories.is_show', 1)
+            ->get();
     }
 
     /**

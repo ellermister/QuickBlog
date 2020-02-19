@@ -25,8 +25,11 @@ class Post extends Model
      * 获取博文列表(含分页)
      * @return mixed
      */
-    public static function getListForPage()
+    public static function getListForPage($isShow = null)
     {
+        if(!is_null($isShow)){
+            return self::where('is_show', $isShow)->orderBy('created_at', 'DESC')->paginate(15);
+        }
         return self::orderBy('created_at', 'DESC')->paginate(15);
     }
 
@@ -51,4 +54,50 @@ class Post extends Model
     {
         return self::find($id);
     }
+
+    /**
+     * 获取标签
+     * @return array
+     */
+    public static function getTags()
+    {
+        $list = self::select('keywords')->get();
+        $words = [];
+        foreach($list as $item){
+            $words = array_merge($words, explode(',', $item['keywords']));
+        }
+        return $words;
+    }
+
+    /**
+     * 获取日期格式文本
+     * @return mixed
+     */
+    public function getDateText()
+    {
+        return $this->created_at->format('F d,Y');
+    }
+
+    /**
+     * 获取分类的颜色CLASS
+     * @return string
+     */
+    public function getCatClass()
+    {
+        $value = $this->cat_id % 4;
+        return "cat-".strval($value+1);
+    }
+
+    /**
+     * 获取缩略图
+     */
+    public function getThumbnail(){
+        if(preg_match('/\!\[[^\]]*\]\(([^\)]+)\)/is', $this->contents, $result)){
+            if(isset($result[1])){
+                return $result[1];
+            }
+        }
+        return '';
+    }
+
 }

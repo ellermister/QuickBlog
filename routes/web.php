@@ -11,12 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-Route::get('/blog', function () {
-    return "test";
-});
+Route::get('/', 'PostsController@showIndexPage');
 
 Route::get('/admin/platforms', 'Admin\PlatformsController@showListPage');
 Route::get('/admin/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');
