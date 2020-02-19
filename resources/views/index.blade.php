@@ -20,7 +20,7 @@
                             <div class="post post-row">
                                 @if($post->getThumbnail())
                                     <a class="post-img" style="max-width: 300px;max-height: 180px" href="/post/{{$post->id}}"><img src="{{$post->getThumbnail()}}" alt=""></a>
-                                    @else
+                                @else
                                     <a class="post-img" style="max-width: 300px;max-height: 180px" href="/post/{{$post->id}}"><img src="/img/post-4.jpg" alt=""></a>
                                 @endif
                                 <div class="post-body">
