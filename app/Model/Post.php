@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
@@ -27,11 +29,69 @@ class Post extends Model
      */
     public static function getListForPage($isShow = null)
     {
-        if(!is_null($isShow)){
+        if (!is_null($isShow)) {
             return self::where('is_show', $isShow)->orderBy('created_at', 'DESC')->paginate(15);
         }
         return self::orderBy('created_at', 'DESC')->paginate(15);
     }
+
+    /**
+     * 通过条件获取博文列表含分页
+     * @param array $condition
+     * @param string $order
+     * @return mixed
+     */
+    public static function getListForPageWithCondition(array $condition, $order = "created_at")
+    {
+        if(Arr::isAssoc($condition)){
+        }
+        return self::where("is_show", 1)->where($condition)->orderBy($order, 'DESC')->paginate(15);
+    }
+
+    /**
+     * 获取最近的博文
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getRecentPosts($limit = 3)
+    {
+        return self::where("is_show", 1)->orderBy("created_at", 'DESC')->limit($limit)->get();
+    }
+
+    /**
+     * 获取阅读最多的博文
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getMostRead($limit = 5)
+    {
+        return self::where("is_show", 1)->orderBy("click", 'DESC')->limit($limit)->get();
+    }
+
+    /**
+     * 获取精选文章
+     * @param int $limit
+     * @return mixed
+     */
+    public static function getFeaturedPosts($limit = 2)
+    {
+        // 精选按最新加入精选的时间排序
+        return self::where("is_show", 1)->where('featured', '>', 0)->orderBy("featured", 'DESC')->limit($limit)->get();
+    }
+
+    /**
+     * 获取归档文章含分页
+     * @param $dateText
+     * @return mixed
+     */
+    public static function getArchivePostsForPage($dateText)
+    {
+        $dateBegin = strtotime(date('Y-m-1 0:0:0', strtotime($dateText)));
+        $dateEnd = strtotime('+1 month', strtotime($dateText));
+        return self::where("is_show", 1)->where('created_at', '>=', $dateBegin)->where('created_at', '<', $dateEnd)
+            ->orderBy("featured", 'DESC')->paginate(15);
+    }
+
 
     /**
      * 显示文本
@@ -63,10 +123,20 @@ class Post extends Model
     {
         $list = self::select('keywords')->get();
         $words = [];
-        foreach($list as $item){
+        foreach ($list as $item) {
             $words = array_merge($words, explode(',', $item['keywords']));
         }
         return $words;
+    }
+
+    /**
+     * 获取归档列表
+     * @return array
+     */
+    public static function getArchiveList()
+    {
+        $buffer = self::select(DB::raw('FROM_UNIXTIME(created_at,"%M %X") as date'))->groupBy("date")->get();
+        return $buffer;
     }
 
     /**
@@ -85,19 +155,56 @@ class Post extends Model
     public function getCatClass()
     {
         $value = $this->cat_id % 4;
-        return "cat-".strval($value+1);
+        return "cat-" . strval($value + 1);
     }
 
     /**
      * 获取缩略图
      */
-    public function getThumbnail(){
-        if(preg_match('/\!\[[^\]]*\]\(([^\)]+)\)/is', $this->contents, $result)){
-            if(isset($result[1])){
+    public function getThumbnail()
+    {
+        if (preg_match('/\!\[[^\]]*\]\(([^\)]+)\)/is', $this->contents, $result)) {
+            if (isset($result[1])) {
+                if (preg_match('/([\S]+)\s/is', $result[1], $img)) {
+                    return $img[1];
+                }
                 return $result[1];
             }
         }
         return '';
     }
+
+    /**
+     * 获取分类名称
+     * @return string
+     */
+    public function getCateName()
+    {
+        $cat = Category::where('id', $this->cat_id)->first();
+        if ($cat) {
+            return $cat->name;
+        }
+        return "默认分类";
+    }
+
+    /**
+     * 获取Markdown内容
+     * @return mixed
+     */
+    public function getMarkdownBody()
+    {
+        return $this->contents;
+    }
+
+    /**
+     * 获取HTML富文本内容
+     * @return string
+     */
+    public function getHtmlBody()
+    {
+        $Parsedown = new \Parsedown();
+        return $Parsedown->text($this->contents);
+    }
+
 
 }

@@ -25,7 +25,7 @@
 
 PHP：建议7.0以上
 
-MySQL：5.6以上
+MySQL：5.7 以上
 
 
 
@@ -87,11 +87,11 @@ abstract public function updateScheme(PostsSchemes $postsScheme);
 
 在同步文章时，可以通过`$postsScheme->third_id`是否为空来分辨当前任务是更新还是新增。
 
-当然，`$postsScheme->chird_url`这个值也是可以的，不过需要注意的是，这两个值都需要你自行维护。
+当然，`$postsScheme->third_url`这个值也是可以的，不过需要注意的是，这两个值都需要你自行维护。
 
 当文章新增更新完成时，你都要及时将这两个值更新为最新的。
 
-third_id为第三方平台对应博文的ID，chird_url为第三方平台对应博文的URL。
+third_id为第三方平台对应博文的ID，third_url为第三方平台对应博文的URL。
 
 
 

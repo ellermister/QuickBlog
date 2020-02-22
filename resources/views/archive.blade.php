@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="section-title">
-                                <h2>文章列表</h2>
+                                <h2>{{$archiveDate}}</h2>
                             </div>
                         </div>
                         <!-- post -->

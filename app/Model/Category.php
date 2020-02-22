@@ -23,13 +23,16 @@ class Category extends Model
      * 获取可视分类
      * @return mixed
      */
-    public static function getShowList()
+    public static function getShowList($limit = null)
     {
-        return self::leftJoin("posts",'posts.cat_id','categories.id')
+        $query =  self::leftJoin("posts",'posts.cat_id','categories.id')
             ->groupBy("cat_id")->select(DB::raw("categories.*"),DB::raw("count(cat_id) as count"))
             ->orderBy('count','desc')
-            ->where('categories.is_show', 1)
-            ->get();
+            ->where('categories.is_show', 1);
+        if(!is_null($limit)){
+            $query->limit(intval($limit));
+        }
+        return $query->get();
     }
 
     /**
@@ -54,5 +57,15 @@ class Category extends Model
             return '显示';
         }
         return '隐藏';
+    }
+
+    /**
+     * 获取分类的颜色CLASS
+     * @return string
+     */
+    public function getCatClass()
+    {
+        $value = $this->id % 4;
+        return "cat-".strval($value+1);
     }
 }

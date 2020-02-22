@@ -187,7 +187,7 @@ class Oschina extends Plugin
                     $res = $this->sendPost($post->title, $post->contents, $postsScheme->getUnionCategory());
                     if($res){
                         $postsScheme->third_id = $res->result->id;
-                        $postsScheme->chird_url = sprintf("https://my.oschina.net/u/%s/blog/%s", $uid, $res->result->id);
+                        $postsScheme->third_url = sprintf("https://my.oschina.net/u/%s/blog/%s", $uid, $res->result->id);
                         return $postsScheme->setSynced(); //设置已经同步完成
                     }
                 }else{
@@ -196,7 +196,7 @@ class Oschina extends Plugin
                     $res = $this->sendPost($post->title, $post->contents, $postsScheme->getUnionCategory(), $postsScheme->third_id);
                     if($res){
                         $postsScheme->third_id = $res->result->id;
-                        $postsScheme->chird_url = sprintf("https://my.oschina.net/u/%s/blog/%s", $uid, $res->result->id);
+                        $postsScheme->third_url = sprintf("https://my.oschina.net/u/%s/blog/%s", $uid, $res->result->id);
                         $postsScheme->setSynced(); //设置已经同步完成
                     }
                 }

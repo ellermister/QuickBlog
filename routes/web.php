@@ -12,6 +12,11 @@
 */
 
 Route::get('/', 'PostsController@showIndexPage');
+Route::get('/latest', 'PostsController@showLatestPosts');
+Route::get('/hots', 'PostsController@showHotsPosts');
+Route::get('/category/{id}', 'PostsController@showCategoryPosts');
+Route::get('/post/{id}', 'PostsController@showPostDetail');
+Route::get('/archive/{date}', 'PostsController@showArchiveList');
 
 Route::get('/admin/platforms', 'Admin\PlatformsController@showListPage');
 Route::get('/admin/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');

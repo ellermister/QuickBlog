@@ -70,7 +70,7 @@ class Jianshu extends Plugin
                     $res = $this->sendPost($post->title, $post->contents, $postsScheme->getUnionCategory());
                     if($res){
                         $postsScheme->third_id = $res['id'];
-                        $postsScheme->chird_url = $res['url'];
+                        $postsScheme->third_url = $res['url'];
                         return $postsScheme->setSynced(); //设置已经同步完成
                     }
                 }else{

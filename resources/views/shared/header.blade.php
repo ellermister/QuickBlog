@@ -7,18 +7,29 @@
             <div class="container">
                 <!-- logo -->
                 <div class="nav-logo">
-                    <a href="index.html" class="logo"><img src="./img/logo.png" alt=""></a>
+                    <a href="/" class="logo"><img src="/img/logo.png" alt=""></a>
                 </div>
                 <!-- /logo -->
 
                 <!-- nav -->
                 <ul class="nav-menu nav navbar-nav">
-                    <li><a href="category.html">News</a></li>
-                    <li><a href="category.html">Popular</a></li>
-                    <li class="cat-1"><a href="category.html">Web Design</a></li>
-                    <li class="cat-2"><a href="category.html">JavaScript</a></li>
-                    <li class="cat-3"><a href="category.html">Css</a></li>
-                    <li class="cat-4"><a href="category.html">Jquery</a></li>
+                    @if($tab == "latest")
+                        <li><a href="/latest" class="on">最新</a></li>
+                        @else
+                        <li><a href="/latest">最新</a></li>
+                    @endif
+                    @if($tab == "hots")
+                        <li><a href="/hots" class="on">热点</a></li>
+                        @else
+                        <li><a href="/hots">热点</a></li>
+                    @endif
+                    @foreach(getCateList(4) as  $item)
+                        @if("cat_".$item->id == $tab)
+                            <li class="{{$item->getCatClass()}}"><a href="/category/{{$item->id}}" class="on">{{$item->name}}</a></li>
+                        @else
+                            <li class="{{$item->getCatClass()}}"><a href="/category/{{$item->id}}">{{$item->name}}</a></li>
+                        @endif
+                    @endforeach
                 </ul>
                 <!-- /nav -->
 
@@ -41,38 +52,29 @@
             <!-- nav -->
             <div class="section-row">
                 <ul class="nav-aside-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Join Us</a></li>
-                    <li><a href="#">Advertisement</a></li>
-                    <li><a href="contact.html">Contacts</a></li>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about">关于我们</a></li>
+                    <li><a href="/Advertisement">广告</a></li>
+                    <li><a href="/contact">联系</a></li>
                 </ul>
             </div>
             <!-- /nav -->
 
             <!-- widget posts -->
             <div class="section-row">
-                <h3>Recent Posts</h3>
+                <h3>最近的博文</h3>
+                @foreach(getRecentPosts() as $post)
                 <div class="post post-widget">
-                    <a class="post-img" href="blog-post.html"><img src="./img/widget-2.jpg" alt=""></a>
+                    @if($post->getThumbnail())
+                        <a class="post-img" href="/post/{{$post->id}}"><img src="{{$post->getThumbnail()}}" alt="{{$post->title}}"></a>
+                    @else
+                        <a class="post-img" href="/post/{{$post->id}}"><img src="/img/widget-2.jpg" alt="{{$post->title}}"></a>
+                    @endif
                     <div class="post-body">
-                        <h3 class="post-title"><a href="blog-post.html">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
+                        <h3 class="post-title"><a href="/post/{{$post->id}}">{{$post->title}}</a></h3>
                     </div>
                 </div>
-
-                <div class="post post-widget">
-                    <a class="post-img" href="blog-post.html"><img src="./img/widget-3.jpg" alt=""></a>
-                    <div class="post-body">
-                        <h3 class="post-title"><a href="blog-post.html">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
-                    </div>
-                </div>
-
-                <div class="post post-widget">
-                    <a class="post-img" href="blog-post.html"><img src="./img/widget-4.jpg" alt=""></a>
-                    <div class="post-body">
-                        <h3 class="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <!-- /widget posts -->
 
@@ -95,5 +97,9 @@
         <!-- Aside Nav -->
     </div>
     <!-- /Nav -->
+
+    <!-- Page Header -->
+    @yield('page_header')
+    <!-- /Page Header -->
 </header>
 <!-- /Header -->

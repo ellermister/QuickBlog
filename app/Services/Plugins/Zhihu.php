@@ -55,7 +55,7 @@ class Zhihu extends Plugin
                     $res = $this->sendPost($post->title, $post->contents);
                     if ($res) {
                         $postsScheme->third_id = $res['id'];
-                        $postsScheme->chird_url = $res['url'];
+                        $postsScheme->third_url = $res['url'];
                         return $postsScheme->setSynced(); //设置已经同步完成
                     }
                 } else {

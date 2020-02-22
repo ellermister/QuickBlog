@@ -318,6 +318,9 @@ RESPONSIVE
  .nav-menu li.cat-4 a:hover, .nav-menu li.cat-4 a:focus {
      color: #8d00ff;
 }
+.nav-menu li a.on{
+    color: #4BB92F;
+}
 /*----------------------------*\
 	search
 \*----------------------------*/
@@ -809,6 +812,7 @@ RESPONSIVE
  .category-widget ul li > a.cat-4 > span {
      background-color: #0078ff;
 }
+
  .category-widget ul li > a:hover, .category-widget ul li > a:focus {
      text-decoration:none;
 }
