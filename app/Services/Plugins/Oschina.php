@@ -22,6 +22,25 @@ class Oschina extends Plugin
 
     protected $name = "oschina";
     protected $version = "1.0";
+    protected $author = "ellermister";
+    protected $title = "开源中国";
+    protected $describe = "OSCHINA.NET 是目前领先的中文开源技术社区。我们传播开源的理念，推广开源项目，为 IT 开...";
+    protected $img = "oschina-logo.jpg";
+
+    /**
+     * 插件安装时信息
+     * @return array
+     */
+    function installInfo()
+    {
+        return [
+            'author'   => $this->author,
+            'name'     => $this->name,
+            'title'    => $this->title,
+            'describe' => $this->describe,
+            'img'      => $this->img
+        ];
+    }
 
     /**
      * 获取COOKIE

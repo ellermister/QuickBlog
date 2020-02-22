@@ -3,10 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Platforms extends Model
 {
     protected $dateFormat = 'U';
+    protected $fillable = ["name", "title", "describe", "img"];
 
     /**
      * 获取平台
@@ -70,17 +72,68 @@ class Platforms extends Model
     }
 
     /**
+     * 是否安装插件
+     * @param $name
+     * @return bool
+     */
+    public static function hasInstalled($name)
+    {
+        return self::where('name', $name)->count() ? true : false;
+    }
+
+    /**
+     * 插件安装
+     * @param array $info
+     * @return bool
+     * @throws \Exception
+     */
+    public static function installPlugin(array $info)
+    {
+        $data = [
+            'name'     => Arr::get($info, "name", ''),
+            'title'    => Arr::get($info, "title", ''),
+            'describe' => Arr::get($info, "describe", ''),
+            'img'      => Arr::get($info, "img", ''),
+        ];
+
+        // 检查两个最重要的参数
+        if(!isset($data['name']) || !isset($data['title'])){
+            throw new \Exception("插件安装参数不全");
+        }
+
+        $platform = self::create($data);
+        return $platform ? true : false;
+    }
+
+    /**
+     * 更新安装
+     * @param array $info
+     * @return bool
+     * @throws \Exception
+     */
+    public static function updateInstall(array $info)
+    {
+        $name = Arr::get($info, 'name', '');
+        if (empty($name)) {
+            throw new \Exception("插件名称不能为空");
+        }
+        $data = Arr::only($info, ['title', 'describe', 'img']);
+        return self::where('name', $name)->update($data) ? true : false;
+    }
+
+    /**
      * 获取分类列表
      * @return array
      */
     public function getCategoryList()
     {
         $pluginManager = app(\App\Services\PluginManager::class);
-        foreach($pluginManager->getPlugins() as $plugin){
-            if($plugin->name == $this->name){
+        foreach ($pluginManager->getPlugins() as $plugin) {
+            if ($plugin->name == $this->name) {
                 return $plugin->categoryList();
             }
         }
         return [];
     }
+
 }

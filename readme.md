@@ -29,6 +29,26 @@ MySQL：5.7 以上
 
 
 
+## 安装使用
+
+复制一份配置`.env.example`为`.env`，并修改其中的数据库参数。
+
+### 1.安装插件
+
+```bash
+php artisan plugin:install
+```
+
+### 2.写入管理员信息
+
+```
+php artisan create:admin
+```
+
+执行完毕后，你会得到默认的管理员信息以及访问地址。
+
+
+
 ## License
 
 暂无！

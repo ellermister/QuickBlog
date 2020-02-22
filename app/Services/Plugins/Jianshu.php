@@ -23,6 +23,25 @@ class Jianshu extends Plugin
 {
     protected $name = "jianshu";
     protected $version = "1.0";
+    protected $author = "ellermister";
+    protected $title = "简书";
+    protected $describe = "简书是一个优质的创作社区，在这里，你可以任性地创作，一篇短文、一张照片、一首诗、一幅画…";
+    protected $img = "jianshu-logo.png";
+
+    /**
+     * 插件安装时信息
+     * @return array
+     */
+    function installInfo()
+    {
+        return [
+            'author'   => $this->author,
+            'name'     => $this->name,
+            'title'    => $this->title,
+            'describe' => $this->describe,
+            'img'      => $this->img
+        ];
+    }
 
     function categoryList()
     {

@@ -22,6 +22,26 @@ class Csdn extends Plugin
 {
     protected $name = "csdn";
     protected $version = "1.0";
+    protected $author = "ellermister";
+    protected $title = "CSDN";
+    protected $describe = "CSDN-专业IT技术社区";
+    protected $img = "csdn-logo.jpg";
+
+    /**
+     * 插件安装时信息
+     * @return array
+     */
+    function installInfo()
+    {
+        return [
+            'author'   => $this->author,
+            'name'     => $this->name,
+            'title'    => $this->title,
+            'describe' => $this->describe,
+            'img'      => $this->img
+        ];
+    }
+
 
     function categoryList()
     {

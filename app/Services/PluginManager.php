@@ -28,6 +28,9 @@ class PluginManager
         $this->app = $app;
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function getPlugins()
     {
         if (is_null($this->plugins)){

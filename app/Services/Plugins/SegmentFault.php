@@ -21,6 +21,25 @@ class SegmentFault extends Plugin
 {
     protected $name = "segmentfault";
     protected $version = "1.0";
+    protected $author = "ellermister";
+    protected $title = "SegmentFault";
+    protected $describe = "SegmentFault 思否是中国领先的新一代开发者社区和专业的技术媒体。";
+    protected $img = "segmentfault-logo.jpg";
+
+    /**
+     * 插件安装时信息
+     * @return array
+     */
+    function installInfo()
+    {
+        return [
+            'author'   => $this->author,
+            'name'     => $this->name,
+            'title'    => $this->title,
+            'describe' => $this->describe,
+            'img'      => $this->img
+        ];
+    }
 
     function categoryList()
     {

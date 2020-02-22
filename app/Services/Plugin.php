@@ -10,6 +10,7 @@ namespace App\Services;
 use App\Model\Platforms;
 use App\Model\PostsSchemes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -19,9 +20,10 @@ abstract class Plugin implements Arrayable
     protected $name;
     protected $version;
     protected $packageInfo;
+
     function __construct()
     {
-        $this->packageInfo = Platforms::getPlatformInfo($this->name);
+        $this->packageInfo = Platforms::getPlatformInfo($this->name) ?? Collection::make([]);
     }
 
     public function __get($name)
@@ -56,6 +58,48 @@ abstract class Plugin implements Arrayable
     {
         $this->version ?? '';
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * 是否安装插件
+     * @return bool
+     */
+    public function installed()
+    {
+        return Platforms::hasInstalled($this->name);
+    }
+
+    /**
+     * 安装插件
+     * @throws \Exception
+     */
+    public function install()
+    {
+        if($this->installed() === false){
+            Platforms::installPlugin($this->installInfo());
+        }
+    }
+
+    /**
+     * 更新插件
+     * @throws \Exception
+     */
+    public function updateInstall()
+    {
+        if($this->installed() === true){
+            Platforms::updateInstall($this->installInfo());
+        }
+    }
+
+    /**
+     * 必须返回 ['author' => '', 'name' => '', 'title' => '', 'describe' => '', 'img' => '']
+     * @return array
+     */
+    abstract function installInfo();
 
     /**
      * 分类列表接口

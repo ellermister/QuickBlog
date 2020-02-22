@@ -26,6 +26,25 @@ class Zhihu extends Plugin
 {
     protected $name = "zhihu";
     protected $version = "1.0";
+    protected $author = "ellermister";
+    protected $title = "知乎";
+    protected $describe = "有问题，上知乎。知乎，可信赖的问答社区，以让每个人高效获得可信赖的解答为使命。";
+    protected $img = "zhihu-logo.jpg";
+
+    /**
+     * 插件安装时信息
+     * @return array
+     */
+    function installInfo()
+    {
+        return [
+            'author'   => $this->author,
+            'name'     => $this->name,
+            'title'    => $this->title,
+            'describe' => $this->describe,
+            'img'      => $this->img
+        ];
+    }
 
     /**
      * 获取COOKIE
