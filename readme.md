@@ -42,10 +42,17 @@ php artisan plugin:install
 ### 2.写入管理员信息
 
 ```
-php artisan create:admin
+php artisan admin:create
 ```
 
 执行完毕后，你会得到默认的管理员信息以及访问地址。
+
+```
+>>新建管理员成功<<
+用户名：quickblog@eller.tech
+密码：admin888
+登录地址：http://localhost/login
+```
 
 
 
