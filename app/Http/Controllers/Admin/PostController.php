@@ -99,7 +99,6 @@ class PostController extends Controller
      */
     public function deletePostInstance(Request $request, $id)
     {
-        return response('',200);
         $post = Post::getPost($id);
         $post = null;
         if (!$post) {
