@@ -18,24 +18,30 @@ Route::get('/category/{id}', 'PostsController@showCategoryPosts');
 Route::get('/post/{id}', 'PostsController@showPostDetail');
 Route::get('/archive/{date}', 'PostsController@showArchiveList');
 
-Route::get('/admin/platforms', 'Admin\PlatformsController@showListPage');
-Route::get('/admin/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');
-Route::post('/admin/platforms/{id}/account', 'Admin\PlatformsController@updateAccount');
-Route::get('/admin/platforms/{id}/sync', 'Admin\PlatformsController@createSchemes');
-Route::post('/admin/platforms/{id}/category/union', 'Admin\PlatformsController@createUnionCategory');
-Route::get('/admin/platforms/{id}/category/union', 'Admin\PlatformsController@getUnionCategoryList');
+Route::get('/login', 'LoginController@showLoginPage')->name('login');
+Route::post('/login', 'LoginController@verifyLogin');
 
-Route::get('/admin/post', 'Admin\PostController@showPostList');
-Route::get('/admin/post/new', 'Admin\PostController@showEditorPage');
-Route::post('/admin/post/new', 'Admin\PostController@newPostInstance');
+Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
+    Route::get('/platforms', 'Admin\PlatformsController@showListPage')->name('dashboard');
+    Route::get('/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');
+    Route::post('/platforms/{id}/account', 'Admin\PlatformsController@updateAccount');
+    Route::get('/platforms/{id}/sync', 'Admin\PlatformsController@createSchemes');
+    Route::post('/platforms/{id}/category/union', 'Admin\PlatformsController@createUnionCategory');
+    Route::get('/platforms/{id}/category/union', 'Admin\PlatformsController@getUnionCategoryList');
 
-Route::get('/admin/post/{id}', 'Admin\PostController@showEditorPageWithPost');
-Route::post('/admin/post/{id}', 'Admin\PostController@updatePostInstance');
+    Route::get('/post', 'Admin\PostController@showPostList');
+    Route::get('/post/new', 'Admin\PostController@showEditorPage');
+    Route::post('/post/new', 'Admin\PostController@newPostInstance');
+
+    Route::get('/post/{id}', 'Admin\PostController@showEditorPageWithPost');
+    Route::post('/post/{id}', 'Admin\PostController@updatePostInstance');
 
 
-Route::get('/admin/category', 'Admin\CategoryController@showListPage');
-Route::get('/admin/category/new', 'Admin\CategoryController@showEditorPage');
-Route::post('/admin/category/new', 'Admin\CategoryController@newCategoryInstance');
+    Route::get('/category', 'Admin\CategoryController@showListPage');
+    Route::get('/category/new', 'Admin\CategoryController@showEditorPage');
+    Route::post('/category/new', 'Admin\CategoryController@newCategoryInstance');
 
-Route::get('/admin/category/{id}', 'Admin\CategoryController@showEditorPageWithCategory');
-Route::post('/admin/category/{id}', 'Admin\CategoryController@updateCategoryInstance');
+    Route::get('/category/{id}', 'Admin\CategoryController@showEditorPageWithCategory');
+    Route::post('/category/{id}', 'Admin\CategoryController@updateCategoryInstance');
+});
+
