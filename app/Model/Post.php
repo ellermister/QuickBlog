@@ -206,5 +206,20 @@ class Post extends Model
         return $Parsedown->text($this->contents);
     }
 
+    /**
+     * 删除文章及关联
+     * @return bool
+     */
+    public function deleteAndUnion()
+    {
+        $ret = DB::transaction(function (){
+            if($this->delete() && PostsSchemes::where('post_id', $this->id)->delete()){
+                return true;
+            }
+            return false;
+        });
+        return $ret ? true :false;
+    }
+
 
 }

@@ -27,7 +27,7 @@
                                 <td>{{$item->showText()}}</td>
                                 <td>
                                     <a href="/admin/post/{{$item->id}}" class="btn btn-success">编辑</a>
-                                    <a href="/admin/post/{{$item->id}}" class="btn btn-success">删除</a>
+                                    <a href="javascript:deletePost(this)" data-id="{{$item->id}}" class="btn btn-dark">删除</a>
                                 </td>
 
                             </tr>
@@ -41,3 +41,22 @@
         {{$posts->links()}}
     </div>
 @endsection
+
+<script type="application/javascript">
+    function deletePost(_this)
+    {
+        let postId = $(_this).data('id');
+        if(confirm("确定要删除这篇博文吗？及相关联的平台文章不会删除，但文章关联性会删除。")){
+            $.ajax({
+                url: "/admin/post/" + postId,
+                method:"delete",
+                dataType:'json',
+                success:function(){
+                    alert('删除成功');
+                },error:function(){
+                    alert('删除失败，请F12查看懒得写。');
+                }
+            });
+        }
+    }
+</script>

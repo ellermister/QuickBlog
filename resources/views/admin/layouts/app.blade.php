@@ -44,6 +44,13 @@
 <script src="/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
 <!-- <script src="/assets/vendor/custom-js/jquery.multi-select.html"></script> -->
 <script src="/assets/libs/js/main-js.js"></script>
+<script type="application/javascript">
+    $.ajaxSetup({
+        headers : {
+            'X-CSRF-TOKEN' : $("meta[name='x-csrf-token']").attr('content')
+        }
+    });
+</script>
 @yield('scripts')
 </body>
 

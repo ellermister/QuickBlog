@@ -91,4 +91,24 @@ class PostController extends Controller
         return back()->withErrors(['更新博文失败']);
     }
 
+    /**
+     * 删除文章实例及文章关联
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|void
+     */
+    public function deletePostInstance(Request $request, $id)
+    {
+        $post = Post::getPost($id);
+        $post = null;
+        if (!$post) {
+            return abort(404);
+        }
+
+        if($post->deleteAndUnion()){
+            return response('',200);
+        }
+        return response(eeJson("删除失败",500),500);
+    }
+
 }
