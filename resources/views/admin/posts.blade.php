@@ -14,7 +14,6 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">标题</th>
-                            <th scope="col">描述</th>
                             <th scope="col">是否显示</th>
                             <th scope="col">操作</th>
                         </tr>
@@ -25,9 +24,11 @@
 
                                 <th scope="row">{{$item->id}}</th>
                                 <td>{{$item->title}}</td>
-                                <td>{{$item->description}}</td>
                                 <td>{{$item->showText()}}</td>
-                                <td><a href="/admin/post/{{$item->id}}" class="btn btn-success">编辑</a></td>
+                                <td>
+                                    <a href="/admin/post/{{$item->id}}" class="btn btn-success">编辑</a>
+                                    <a href="/admin/post/{{$item->id}}" class="btn btn-success">删除</a>
+                                </td>
 
                             </tr>
                         @endforeach
