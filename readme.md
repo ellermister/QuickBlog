@@ -4,8 +4,6 @@
 
 程序采用PHP编写，使用Laravel框架为基础。
 
-
-
 ## 支持的平台
 
 目前QuickBlog支持以下平台。
@@ -20,8 +18,8 @@
 
 
 ## 预览图
-![3lT3If.png](https://s2.ax1x.com/2020/02/23/3lT3If.png)
 ![3lpLFJ.png](https://s2.ax1x.com/2020/02/23/3lpLFJ.png)
+![3lT3If.png](https://s2.ax1x.com/2020/02/23/3lT3If.png)
 ![3lTDoV.png](https://s2.ax1x.com/2020/02/23/3lTDoV.png)
 ![3lTLyd.png](https://s2.ax1x.com/2020/02/23/3lTLyd.png)
 
