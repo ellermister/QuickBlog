@@ -43,7 +43,7 @@ class Jianshu extends Plugin
         ];
     }
 
-    function categoryList()
+    function categoryList(): array
     {
         $url = "https://www.jianshu.com/author/notebooks";
         $client = new Client();
@@ -267,6 +267,12 @@ class Jianshu extends Plugin
         }
         // 没找到具体文章，也可以从其他分类中继续尝试获取。
         return 0;
+    }
+
+    public function verifyCookie(string $cookie): bool
+    {
+        // TODO: Implement verifyCookie() method.
+        return false;
     }
 
 }

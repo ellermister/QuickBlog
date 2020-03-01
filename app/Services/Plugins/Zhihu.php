@@ -55,10 +55,17 @@ class Zhihu extends Plugin
         return ($this->packageInfo->cookie);
     }
 
-    function categoryList()
+    function categoryList(): array
     {
         return [];
     }
+
+    public function verifyCookie(string $cookie): bool
+    {
+        // TODO: Implement verifyCookie() method.
+        return false;
+    }
+
 
     public function updateScheme(PostsSchemes $postsScheme)
     {

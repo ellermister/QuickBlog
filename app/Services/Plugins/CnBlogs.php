@@ -36,7 +36,12 @@ class CnBlogs extends Plugin
         ];
     }
 
-    function categoryList()
+    public function verifyCookie(string $cookie): bool
+    {
+        // TODO: Implement verifyCookie() method.
+    }
+
+    function categoryList(): array
     {
         // TODO: Implement categoryList() method.
         return [];

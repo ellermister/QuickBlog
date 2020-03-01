@@ -106,7 +106,7 @@ abstract class Plugin implements Arrayable
      * 必须返回键值对 [ '分类ID' => '分类名]
      * @return array
      */
-    abstract function categoryList();
+    abstract function categoryList(): array;
 
     /**
      * 更新同步计划
@@ -131,5 +131,13 @@ abstract class Plugin implements Arrayable
 
     // 如果同步出错，需要返回错误字符串，将会在命令行展示。
     // return $exception->getMessage();
+
+
+    /**
+     * 验证COOKIE有效性
+     * @param string $cookie
+     * @return bool
+     */
+    abstract public function verifyCookie(string $cookie): bool;
 
 }

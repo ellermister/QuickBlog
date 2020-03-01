@@ -14,6 +14,7 @@ use App\Model\PostsSchemes;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -69,20 +70,22 @@ class Oschina extends Plugin
 
     /**
      * 获取用户UID
+     * @param string|null $cookie
      * @return string
      */
-    public function getUid()
+    public function getUid(string $cookie = null)
     {
         $url = "https://my.oschina.net/";
         $client = new Client();
         $response = $client->request('get', $url,[
             'headers' => [
-                'Cookie' => $this->getCookie(),
+                'Cookie' => $cookie ? $cookie : $this->getCookie(),
                 'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
-            ]
+            ],
+            'allow_redirects' => false
         ]);
-        $response = $response->getBody();
-        if(preg_match('/https:\/\/my\.oschina\.net\/u\/(\d+)/i', $response->getContents(), $matches)){
+        $location = $response->getHeaderLine('location');
+        if(preg_match('/\/u\/(\d+)/i', $location, $matches)){
             return $matches[1];
         }
         return "";
@@ -236,7 +239,7 @@ class Oschina extends Plugin
      * 作为平台设置页展示关联使用
      * @return array
      */
-    public function categoryList()
+    public function categoryList(): array
     {
         $list = [];
         $uid = $this->getUid();
@@ -257,6 +260,17 @@ class Oschina extends Plugin
             }
         }
         return $list;
+    }
+
+    /**
+     * 验证COOKIE有效性
+     * @param string $cookie
+     * @return bool
+     */
+    public function verifyCookie(string $cookie): bool
+    {
+        $uid = $this->getUid($cookie);
+        return empty($uid) ? false : true;
     }
 
 }

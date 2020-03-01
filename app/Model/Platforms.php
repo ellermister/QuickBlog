@@ -136,4 +136,24 @@ class Platforms extends Model
         return [];
     }
 
+    /**
+     * 验证并设置COOKIE
+     * @param $cookie
+     * @return bool
+     */
+    public function verifyAndSetCookie($cookie)
+    {
+        $pluginManager = app(\App\Services\PluginManager::class);
+        foreach ($pluginManager->getPlugins() as $plugin) {
+            if ($plugin->name == $this->name) {
+                if(boolval($plugin->verifyCookie($cookie))){
+                    $this->cookie = $cookie;
+                    return true;
+                }
+                return false;
+            }
+        }
+        return  false;
+    }
+
 }

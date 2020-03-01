@@ -43,7 +43,7 @@ class Csdn extends Plugin
     }
 
 
-    function categoryList()
+    function categoryList(): array
     {
         return [];
     }
@@ -181,6 +181,12 @@ class Csdn extends Plugin
     public function getCookie()
     {
         return ($this->packageInfo->cookie);
+    }
+
+    public function verifyCookie(string $cookie): bool
+    {
+        // TODO: Implement verifyCookie() method.
+        return false;
     }
 
 }
