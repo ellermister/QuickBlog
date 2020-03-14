@@ -38,13 +38,20 @@ MySQL：5.7 以上
 
 复制一份配置`.env.example`为`.env`，并修改其中的数据库参数。
 
-### 1.安装插件
+### 1.生成KEY和创建数据库
+
+```bash
+php artisan key:generate
+php artisan migrate
+```
+
+### 2.安装插件
 
 ```bash
 php artisan plugin:install
 ```
 
-### 2.写入管理员信息
+### 3.写入管理员信息
 
 ```
 php artisan admin:create
