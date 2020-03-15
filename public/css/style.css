@@ -650,6 +650,9 @@ RESPONSIVE
  .post.post-row .post-title {
      margin-bottom: 15px;
 }
+ .main-post img{
+     max-width: 100%;
+ }
 /*=========================================================
 	POST PAGE
 ===========================================================*/
