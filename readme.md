@@ -78,6 +78,16 @@ php artisan admin:create
 登录地址：http://localhost/login
 ```
 
+### 5.设置计划任务
+
+通过linux系统的计划任务来运行系统以及调度同步任务计划，目前同步功能10分钟进行一次。
+
+通过 `crontab -e` 写入以下命令，其中路径需要自行替换。
+
+```
+* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+```
+
 
 
 ## License
