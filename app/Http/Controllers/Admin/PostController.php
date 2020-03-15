@@ -100,7 +100,6 @@ class PostController extends Controller
     public function deletePostInstance(Request $request, $id)
     {
         $post = Post::getPost($id);
-        $post = null;
         if (!$post) {
             return abort(404);
         }
@@ -109,6 +108,27 @@ class PostController extends Controller
             return response('',200);
         }
         return response(eeJson("删除失败",500),500);
+    }
+
+    /**
+     * 设置精选/取消精选
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
+    public function ActiveFeatured(Request $request, $id)
+    {
+        $post = Post::getPost($id);
+        if (!$post) {
+            return abort(404);
+        }
+        if($post->featured ==0){
+            $post->featured = time();
+        }else{
+            $post->featured = 0;
+        }
+        $post->save();
+        return  redirect()->back();
     }
 
 }

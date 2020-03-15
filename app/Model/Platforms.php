@@ -127,12 +127,17 @@ class Platforms extends Model
      */
     public function getCategoryList()
     {
-        $pluginManager = app(\App\Services\PluginManager::class);
-        foreach ($pluginManager->getPlugins() as $plugin) {
-            if ($plugin->name == $this->name) {
-                return $plugin->categoryList();
+        try{
+            $pluginManager = app(\App\Services\PluginManager::class);
+            foreach ($pluginManager->getPlugins() as $plugin) {
+                if ($plugin->name == $this->name) {
+                    return $plugin->categoryList();
+                }
             }
+        }catch (\Exception $exception){
+            return [];
         }
+
         return [];
     }
 

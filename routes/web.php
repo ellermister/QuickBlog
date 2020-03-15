@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
     Route::post('/platforms/{id}/category/union', 'Admin\PlatformsController@createUnionCategory');
     Route::get('/platforms/{id}/category/union', 'Admin\PlatformsController@getUnionCategoryList');
 
+    Route::get('/post/{id}/featured', 'Admin\PostController@ActiveFeatured');
     Route::get('/post', 'Admin\PostController@showPostList');
     Route::get('/post/new', 'Admin\PostController@showEditorPage');
     Route::post('/post/new', 'Admin\PostController@newPostInstance');

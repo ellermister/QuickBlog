@@ -14,7 +14,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">标题</th>
-                            <th scope="col">是否显示</th>
+                            <th scope="col">可视</th>
+                            <th scope="col">精选</th>
                             <th scope="col">操作</th>
                         </tr>
                         </thead>
@@ -24,8 +25,10 @@
 
                                 <th scope="row">{{$item->id}}</th>
                                 <td>{{$item->title}}</td>
-                                <td>{{$item->showText()}}</td>
+                                <td>@if($item->is_show == 1)<i class="fas fa-eye"></i>@else<i class="fas fa-eye-slash"></i>@endif</td>
+                                <td>@if($item->featured == 0)<a href="/admin/post/{{$item->id}}/featured" class="btn btn-primary">设置精选</a>@else<a href="/admin/post/{{$item->id}}/featured" class="btn btn-dark">取消精选</a>@endif</td>
                                 <td>
+                                    <a href="/post/{{$item->id}}" target="_blank" class="btn btn-brand">预览</a>
                                     <a href="/admin/post/{{$item->id}}" class="btn btn-success">编辑</a>
                                     <a href="javascript:void(0)" onclick="deletePost(this)" data-id="{{$item->id}}" class="btn btn-dark">删除</a>
                                 </td>
