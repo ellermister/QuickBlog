@@ -74,16 +74,16 @@ class Zhihu extends Plugin
             $response = $client->request('GET', $url, [
                 'headers' => [
                     'content-type' => 'application/json',
-                    'Cookie'       => $this->getCookie(),
+                    'Cookie'       => $cookie,
                     'user-agent'   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
                 ]
             ]);
         } catch (ClientException $e) {
             $error = "验证COOKIE有效性时遇到错误，HTTP状态码：" . $e->getResponse()->getStatusCode() . " message:" . $e->getMessage();
             Log::error($error);
-            throw new Exception($error);
+            return false;
         } catch (BadResponseException $exception) {
-            throw new Exception($exception->getMessage());
+            return false;
         }
         $response = $response->getBody()->getContents();
         $data = json_decode($response, true);

@@ -153,6 +153,7 @@ class Platforms extends Model
             if ($plugin->name == $this->name) {
                 if(boolval($plugin->verifyCookie($cookie))){
                     $this->cookie = $cookie;
+                    $this->save();
                     return true;
                 }
                 return false;
