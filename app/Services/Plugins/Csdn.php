@@ -104,7 +104,7 @@ class Csdn extends Plugin
             'markdowncontent'   => $content,
             'not_auto_saved'    => "1",
             'original_link'     => "",
-            'readType'          => "private",// public
+            'readType'          => config('APP_DEBUG', false) ? 'private' : 'public',//"private",// public
             'source'            => "pc_mdeditor",
             'status'            => "0",
             'tags'              => "",
