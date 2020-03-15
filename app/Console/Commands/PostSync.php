@@ -45,24 +45,26 @@ class PostSync extends Command
     {
         //
         $this->info('> 开始同步计划');
+        Log::channel('schemes')->info('开始同步计划');
         $pluginManager = app(\App\Services\PluginManager::class);
-        foreach($pluginManager->getPlugins() as $plugin){
+        foreach ($pluginManager->getPlugins() as $plugin) {
             $postScheme = PostsSchemes::getSchemes($plugin->getName());
-            foreach ($postScheme as $scheme){
-                $this->info('同步计划 post_id:'.$scheme->post_id);
+            foreach ($postScheme as $scheme) {
+                $this->info('同步计划 post_id:' . $scheme->post_id);
                 $error = $plugin->updateScheme($scheme);
 
                 $shortTitle = mb_substr($scheme->getPost()->title, 0, 15);
-                if(is_string($error)){
-                    $formatError = sprintf("计划ID:%s 文章标题:%s 错误：%s", $scheme->id, $shortTitle, $error);
+                if (is_string($error)) {
+                    $formatError = sprintf("计划ID:%s 平台:%s 文章标题:%s... 错误：%s", $scheme->id, $plugin->getName(), $shortTitle, $error);
                     Log::channel('schemes')->error($formatError);
                     $this->error($error);
-                }else{
-                    $message = sprintf("计划ID:%s 文章标题:%s 同步完成", $scheme->id, $shortTitle);
+                } else {
+                    $message = sprintf("计划ID:%s 平台:%s 文章标题:%s... 同步完成", $scheme->id, $plugin->getName(), $shortTitle);
                     Log::channel('schemes')->info($message);
                 }
             }
         }
         $this->info('> 结束同步计划');
+        Log::channel('schemes')->info('结束同步计划');
     }
 }

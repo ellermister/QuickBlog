@@ -44,5 +44,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
 
     Route::get('/category/{id}', 'Admin\CategoryController@showEditorPageWithCategory');
     Route::post('/category/{id}', 'Admin\CategoryController@updateCategoryInstance');
+
+    Route::get('/log', 'Admin\SchemesLogController@showLog');
+    Route::get('/log/clear', 'Admin\SchemesLogController@clearLog');
 });
 
