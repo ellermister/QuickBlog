@@ -47,5 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
 
     Route::get('/log', 'Admin\SchemesLogController@showLog');
     Route::get('/log/clear', 'Admin\SchemesLogController@clearLog');
+
+    Route::get('/helper', 'Admin\HelperController@showInfo');
 });
 
