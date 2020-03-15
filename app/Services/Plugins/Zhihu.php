@@ -60,9 +60,36 @@ class Zhihu extends Plugin
         return [];
     }
 
+    /**
+     * 验证COOKIE有效性
+     * @param string $cookie
+     * @return bool
+     * @throws Exception
+     */
     public function verifyCookie(string $cookie): bool
     {
-        // TODO: Implement verifyCookie() method.
+        $url = "https://www.zhihu.com/api/v4/answer_later/count";
+        $client = new Client();
+        try {
+            $response = $client->request('GET', $url, [
+                'headers' => [
+                    'content-type' => 'application/json',
+                    'Cookie'       => $this->getCookie(),
+                    'user-agent'   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+                ]
+            ]);
+        } catch (ClientException $e) {
+            $error = "验证COOKIE有效性时遇到错误，HTTP状态码：" . $e->getResponse()->getStatusCode() . " message:" . $e->getMessage();
+            Log::error($error);
+            throw new Exception($error);
+        } catch (BadResponseException $exception) {
+            throw new Exception($exception->getMessage());
+        }
+        $response = $response->getBody()->getContents();
+        $data = json_decode($response, true);
+        if (is_array($data) && isset($data['count'])) {
+            return true;
+        }
         return false;
     }
 
@@ -474,5 +501,7 @@ class Zhihu extends Plugin
         $signature = base64_encode(hash_hmac('sha1', $input, $AccessKeySecret, true));
         return 'OSS ' . $accessKeyId . ':' . $signature;
     }
+
+
 
 }

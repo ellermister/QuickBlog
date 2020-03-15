@@ -149,7 +149,7 @@ class Oschina extends Plugin
                     'classification' => '428640',
                     'type'           => 1,
                     'origin_url'     => '',
-                    'privacy'        => 1,
+                    'privacy'        => config('APP_DEBUG', false) ? 1 : 0,
                     'deny_comment'   => 0,
                     'as_top'         => 0,
                     'downloadImg'    => 0,
