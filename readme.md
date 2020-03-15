@@ -36,22 +36,34 @@ MySQL：5.7 以上
 
 ## 安装使用
 
-复制一份配置`.env.example`为`.env`，并修改其中的数据库参数。
+### 1.通过composer安装依赖
 
-### 1.生成KEY和创建数据库
+你需要引入composer，如果没有安装请参考：https://getcomposer.org/download/
+
+```
+composer update
+```
+
+### 2.生成KEY和创建数据库
+
+复制一份配置`.env.example`为`.env`，并修改其中的数据库参数。
 
 ```bash
 php artisan key:generate
 php artisan migrate
 ```
 
-### 2.安装插件
+### 3.安装插件
+
+平台同步采用插件的形式集成在系统中，执行命令将予以安装并将信息存储到数据库。
 
 ```bash
 php artisan plugin:install
 ```
 
-### 3.写入管理员信息
+### 4.写入管理员信息
+
+最后，通过写入默认管理员信息获得后台管理的访问权限。
 
 ```
 php artisan admin:create

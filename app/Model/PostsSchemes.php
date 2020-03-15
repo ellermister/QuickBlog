@@ -40,7 +40,7 @@ class PostsSchemes extends Model
     /**
      * 获取就绪计划
      * @param $name
-     * @return mixed
+     * @return mixed|PostsSchemes[]
      */
     public static function getSchemes($name)
     {

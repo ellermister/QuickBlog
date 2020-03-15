@@ -51,7 +51,7 @@ abstract class Plugin implements Arrayable
         return (array) array_merge([
             'name'          => $this->name,
             'version'       => $this->getVersion(),
-        ], $this->packageInfo);
+        ], $this->packageInfo->toArray());
     }
 
     public function getVersion()

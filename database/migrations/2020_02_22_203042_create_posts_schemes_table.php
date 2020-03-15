@@ -17,7 +17,7 @@ class CreatePostsSchemesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('post_id')->default(0)->comment('博文ID');
             $table->integer('platform_id')->default(0)->comment('平台ID');
-            $table->tinyInteger('sync_status')->default(0)->comment('0:就绪 1:等待同步 2:同步完成 3:同步失败');
+            $table->tinyInteger('sync_status')->default(0)->comment('0:就绪 1:等待同步 2:同步中 3:同步失败');
             $table->string('third_id')->default(0)->comment('第三方平台文章ID');
             $table->string('third_url')->default(0)->comment('第三方平台文章URL');
             $table->unique(['post_id', 'platform_id'], 'unique_id');
