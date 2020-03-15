@@ -46,9 +46,34 @@ class SegmentFault extends Plugin
         return [];
     }
 
+    /**
+     * 验证COOKIE有效性
+     * @param string $cookie
+     * @return bool
+     */
     public function verifyCookie(string $cookie): bool
     {
-        // TODO: Implement verifyCookie() method.
+        $url = "https://segmentfault.com/user/finance";
+        $client = new Client();
+        try {
+            $response = $client->request('GET', $url, [
+                'headers' => [
+                    'content-type' => 'application/json',
+                    'Cookie'       => $cookie,
+                    'user-agent'   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
+                ],
+                'allow_redirects' => false
+            ]);
+        } catch (ClientException $e) {
+            $error = "验证COOKIE有效性时遇到错误，HTTP状态码：" . $e->getResponse()->getStatusCode() . " message:" . $e->getMessage();
+            Log::error($error);
+            return false;
+        } catch (BadResponseException $exception) {
+            return false;
+        }
+        if($response->getStatusCode() == 200){
+            return true;
+        }
         return false;
     }
 
