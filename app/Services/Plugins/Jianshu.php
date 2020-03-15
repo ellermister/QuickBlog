@@ -154,6 +154,7 @@ class Jianshu extends Plugin
         $response = $response->getBody()->getContents();
         $data = json_decode($response,  true);
         if(is_array($data) && isset($data['content_size_status']) &&  isset($data['id'])){
+            sleep(5);// 简书发的太快会被检测
             if($this->publicize($data['id'])){
                 return ['id' => $data['id'],'url' => sprintf('https://www.jianshu.com/p/%s', $slug ?? '')];// 更新时这个值为空
             }
