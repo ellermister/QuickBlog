@@ -47,6 +47,9 @@
                                     <a class="nav-link" href="/admin/setting">全局配置</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/admin/log">同步日志</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/admin/helper">登录助手</a>
                                 </li>
                             </ul>
