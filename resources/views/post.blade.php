@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title', $post->title.' - '.getSettings('site_name'))
+@section('keyword', $post->keywords)
+@section('description', $post->description)
 
 @section("page_header")
     <div id="post-header" class="page-header">
@@ -137,7 +140,7 @@
                         <div class="tags-widget">
                             <ul>
                                 @foreach($tags as $tag)
-                                    <li><a href=/tag/{{$tag}}">{{$tag}}</a></li>
+                                    <li><a href="/tag/{{$tag}}">{{$tag}}</a></li>
                                 @endforeach
                             </ul>
                         </div>

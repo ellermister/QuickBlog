@@ -56,3 +56,32 @@ function getFeaturedPosts($limit = 2)
 {
     return \App\Model\Post::getFeaturedPosts($limit);
 }
+
+/**
+ * 获取系统设置
+ * @param null $name
+ * @param string $default
+ * @return array
+ */
+function getSettings($name = null,$default = "")
+{
+    static $data;
+    if(!$data){
+        $data = \App\Model\Setting::getSetting();
+    }
+    if(is_null($name)){
+        return $data;
+    }
+    return $data->get($name, $default);
+}
+
+/**
+ * 获取分类名称
+ * @param $catId
+ * @param string $default
+ * @return string
+ */
+function getCategoryName($catId, $default = "")
+{
+    return \App\Model\Category::getCategoryName($catId, $default);
+}

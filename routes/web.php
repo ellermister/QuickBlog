@@ -50,5 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
     Route::get('/log/clear', 'Admin\SchemesLogController@clearLog');
 
     Route::get('/helper', 'Admin\HelperController@showInfo');
+
+    Route::get('/setting', 'Admin\SettingController@showSettingPage');
+    Route::post('/setting', 'Admin\SettingController@updateSetting');
 });
 

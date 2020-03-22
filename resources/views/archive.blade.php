@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title',$archiveDate.' - '.getSettings('site_name'))
 
 @section('content')
     <!-- section -->
@@ -76,7 +77,7 @@
                         <div class="tags-widget">
                             <ul>
                                 @foreach($tags as $tag)
-                                <li><a href=/tag/{{$tag}}">{{$tag}}</a></li>
+                                <li><a href="/tag/{{$tag}}">{{$tag}}</a></li>
                                 @endforeach
                             </ul>
                         </div>

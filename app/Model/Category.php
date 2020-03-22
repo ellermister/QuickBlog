@@ -25,11 +25,11 @@ class Category extends Model
      */
     public static function getShowList($limit = null)
     {
-        $query =  self::leftJoin("posts",'posts.cat_id','categories.id')
-            ->groupBy("cat_id")->select(DB::raw("categories.*"),DB::raw("count(cat_id) as count"))
-            ->orderBy('count','desc')
+        $query = self::leftJoin("posts", 'posts.cat_id', 'categories.id')
+            ->groupBy("cat_id")->select(DB::raw("categories.*"), DB::raw("count(cat_id) as count"))
+            ->orderBy('count', 'desc')
             ->where('categories.is_show', 1);
-        if(!is_null($limit)){
+        if (!is_null($limit)) {
             $query->limit(intval($limit));
         }
         return $query->get();
@@ -66,6 +66,20 @@ class Category extends Model
     public function getCatClass()
     {
         $value = $this->id % 4;
-        return "cat-".strval($value+1);
+        return "cat-" . strval($value + 1);
+    }
+
+    /**
+     * 通过ID获取分类名
+     * @param $catId
+     * @return string
+     */
+    public static function getCategoryName($catId, $default = null)
+    {
+        $obj = self::find($catId);
+        if ($obj) {
+            return $obj->name;
+        }
+        return $default;
     }
 }

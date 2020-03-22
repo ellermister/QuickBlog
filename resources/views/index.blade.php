@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@if($tab == "latest")
+    @section('title','最新 - '.getSettings('site_name'))
+@elseif($tab == "hots")
+    @section('title','热点 - '.getSettings('site_name'))
+@elseif(substr($tab,0,strlen("cat_")) == "cat_")
+    @section('title',getCategoryName(substr($tab,strlen("cat_"))).' - '.getSettings('site_name'))
+@endif
+
 @section('content')
     <!-- section -->
     <div class="section">
@@ -76,7 +84,7 @@
                         <div class="tags-widget">
                             <ul>
                                 @foreach($tags as $tag)
-                                <li><a href=/tag/{{$tag}}">{{$tag}}</a></li>
+                                <li><a href="/tag/{{$tag}}">{{$tag}}</a></li>
                                 @endforeach
                             </ul>
                         </div>
