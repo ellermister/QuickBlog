@@ -36,4 +36,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * 修改登录密码
+     * @param $password
+     * @return bool
+     */
+    public function changePassword($password)
+    {
+        $this->password = bcrypt($password);
+        return $this->save();
+    }
 }

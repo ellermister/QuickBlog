@@ -14,16 +14,23 @@
                     <h5 class="card-header">网站基础</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="inputText3" class="col-form-label">网站名称</label>
-                            <input id="inputText3" type="text" class="form-control" name="site_name" value="{{session('site_name')??($setting->get('site_name'))}}">
+                            <label for="inputTextSiteName" class="col-form-label">网站名称</label>
+                            <input id="inputTextSiteName" type="text" class="form-control" name="site_name" value="{{session('site_name')??($setting->get('site_name'))}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputText3" class="col-form-label">关键字</label>
-                            <input id="inputText3" type="text" class="form-control" name="site_keyword" value="{{session('site_keyword')??($setting->get('site_keyword'))}}">
+                            <label for="inputTextSiteKeyword" class="col-form-label">关键字</label>
+                            <input id="inputTextSiteKeyword" type="text" class="form-control" name="site_keyword" value="{{session('site_keyword')??($setting->get('site_keyword'))}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputText3" class="col-form-label">描述</label>
-                            <input id="inputText3" type="text" class="form-control" name="site_describe" value="{{session('site_describe')??($setting->get('site_describe'))}}">
+                            <label for="inputTextDescribe" class="col-form-label">描述</label>
+                            <input id="inputTextDescribe" type="text" class="form-control" name="site_describe" value="{{session('site_describe')??($setting->get('site_describe'))}}">
+                        </div>
+                    </div>
+                    <h5 class="card-header">账户</h5>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="inputTextAdminPass" class="col-form-label">管理员登录密码</label>
+                            <input id="inputTextAdminPass" type="text" class="form-control" name="admin_password"  placeholder="留空则不修改">
                         </div>
                     </div>
                     <div class="card-body border-top">
