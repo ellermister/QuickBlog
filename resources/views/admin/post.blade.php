@@ -70,11 +70,20 @@
 @section('scripts')
     <script src="/editormd/editormd.min.js"></script>
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers : {
+                'X-CSRF-TOKEN' : $("meta[name='x-csrf-token']").attr('content')
+            }
+        });
         $(function() {
             var editor = editormd("test-editor", {
                 // width  : "100%",
                 height : "600px",
-                path   : "/editormd/lib/"
+                path   : "/editormd/lib/",
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/admin/upload",
+
             });
         });
     </script>

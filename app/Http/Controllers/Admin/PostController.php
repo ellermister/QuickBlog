@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Parsedown;
 use League\HTMLToMarkdown\HtmlConverter;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -104,10 +105,10 @@ class PostController extends Controller
             return abort(404);
         }
 
-        if($post->deleteAndUnion()){
-            return response('',200);
+        if ($post->deleteAndUnion()) {
+            return response('', 200);
         }
-        return response(eeJson("删除失败",500),500);
+        return response(eeJson("删除失败", 500), 500);
     }
 
     /**
@@ -122,13 +123,53 @@ class PostController extends Controller
         if (!$post) {
             return abort(404);
         }
-        if($post->featured ==0){
+        if ($post->featured == 0) {
             $post->featured = time();
-        }else{
+        } else {
             $post->featured = 0;
         }
         $post->save();
-        return  redirect()->back();
+        return redirect()->back();
+    }
+
+    /**
+     * 上传图片文件
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function uploadImage(Request $request)
+    {
+        $allow_types = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
+        $picture = $request->file('editormd-image-file');
+
+        if ($request->hasFile('editormd-image-file') && $picture->isValid()) {
+
+            if (!in_array($picture->getMiMeType(), $allow_types)) {
+                return response($this->outputImg('图片类型不正确'));
+            }
+
+            if ($picture->getClientSize() > 1024 * 1024 * 6) {
+                return response($this->outputImg('图片大小不能超过 6M'));
+            }
+
+            $path = $picture->store('public/images');
+
+            $path = Storage::url($path);
+            return response($this->outputImg('ok', 1, $path, asset($path)));
+        } else {
+            return response($this->outputImg('无效上传'));
+        }
+    }
+
+    private function outputImg($message, $status = 0, $fileName = '', $url = '')
+    {
+        $data = [
+            'success'  => $status ? 1 : 0,
+            'message'  => $message,
+            'fileName' => $fileName,
+            'url'      => $url
+        ];
+        return json_encode($data);
     }
 
 }

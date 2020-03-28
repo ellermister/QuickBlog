@@ -74,6 +74,7 @@ composer update
 ```bash
 php artisan key:generate
 php artisan migrate
+php artisan storage:link
 ```
 
 ### 4.安装插件

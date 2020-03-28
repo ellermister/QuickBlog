@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
     Route::post('/post/{id}', 'Admin\PostController@updatePostInstance');
     Route::delete('/post/{id}', 'Admin\PostController@deletePostInstance');
 
+    Route::post('/upload', 'Admin\PostController@uploadImage');
+
 
     Route::get('/category', 'Admin\CategoryController@showListPage');
     Route::get('/category/new', 'Admin\CategoryController@showEditorPage');
