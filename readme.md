@@ -2,9 +2,19 @@
 
 一文多发系统，即一个平台文章以及维护编辑内容，文章自动同步到多个平台并更新。
 
-程序采用PHP编写，使用Laravel框架为基础。
+有了它你只需要在一个平台完成文章内容创作，程序会自动帮助你实现发布、更新到其他平台的工作。同时QuickBlog 本身还是一个具备基本功能的博客程序，你可以将它部署在互联网上很轻易的作为独立博客吸引读者以及搜索引擎的青睐。
 
-## 支持的平台
+
+
+### 基本特点
+
+- 程序采用PHP编写，使用Laravel框架为基础
+- 代码开源可自行部署，不丢失数据隐私。
+- 采用插件形式，极易扩展新增发布平台。
+
+
+
+### 支持的平台
 
 目前QuickBlog支持以下平台。
 
@@ -17,7 +27,7 @@
 
 
 
-## 预览图
+### 预览图
 ![3lpLFJ.png](https://s2.ax1x.com/2020/02/23/3lpLFJ.png)
 ![3lT3If.png](https://s2.ax1x.com/2020/02/23/3lT3If.png)
 ![3lTDoV.png](https://s2.ax1x.com/2020/02/23/3lTDoV.png)
@@ -25,8 +35,9 @@
 
 
 
+## 安装使用
 
-## 环境使用
+### **环境要求**
 
 PHP：建议7.0以上
 
@@ -34,9 +45,19 @@ MySQL：5.7 以上
 
 
 
-## 安装使用
+### 1.下载程序
 
-### 1.通过composer安装依赖
+通过 github 获取最新的源代码
+
+```bash
+git clone https://github.com/ellermister/QuickBlog.git
+```
+
+如果没有安装 git ，建议你安装，以方便以后通过 <code>git</code> 进行更新。当然这也丝毫不影响你通过直接下载zip包的形式使用。
+
+
+
+### 2.通过composer安装依赖
 
 你需要引入composer，如果没有安装请参考：https://getcomposer.org/download/
 
@@ -44,7 +65,7 @@ MySQL：5.7 以上
 composer update
 ```
 
-### 2.生成KEY和创建数据库
+### 3.生成KEY和创建数据库
 
 复制一份配置`.env.example`为`.env`，并修改其中的数据库参数。
 
@@ -53,7 +74,7 @@ php artisan key:generate
 php artisan migrate
 ```
 
-### 3.安装插件
+### 4.安装插件
 
 平台同步采用插件的形式集成在系统中，执行命令将予以安装并将信息存储到数据库。
 
@@ -61,7 +82,7 @@ php artisan migrate
 php artisan plugin:install
 ```
 
-### 4.写入管理员信息
+### 5.写入管理员信息
 
 最后，通过写入默认管理员信息获得后台管理的访问权限。
 
@@ -78,7 +99,7 @@ php artisan admin:create
 登录地址：http://localhost/login
 ```
 
-### 5.设置计划任务
+### 6.设置计划任务
 
 通过linux系统的计划任务来运行系统以及调度同步任务计划，目前同步功能10分钟进行一次。
 
@@ -92,7 +113,7 @@ php artisan admin:create
 
 ## License
 
-暂无！
+需注明程序名称（QuickBlog）及开源地址！
 
 
 
