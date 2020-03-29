@@ -382,7 +382,14 @@ class Zhihu extends Plugin
      */
     protected function getImagesToLocal($url)
     {
-        $img = file_get_contents($url);
+        $stream_opts = [
+            "ssl" => [
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ]
+        ];
+        $img = file_get_contents($url,
+            false, stream_context_create($stream_opts));
         $urlInfo = parse_url($url);
         $pathInfo = pathinfo($urlInfo['path']);
         $ext = $pathInfo['extension'] ?? 'jpg';
