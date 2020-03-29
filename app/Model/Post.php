@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Post extends Model
 {
     protected $dateFormat = 'U';
-    protected $fillable = ['title', 'keywords', 'description', 'contents', 'post_img', 'category', 'cat_id', 'is_show'];
+    protected $fillable = ['title', 'keywords', 'description', 'contents', 'post_img', 'category', 'cat_id', 'is_show','is_sync'];
 
 
     /**

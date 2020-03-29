@@ -31,10 +31,11 @@ class PostController extends Controller
     public function newPostInstance(Request $request)
     {
         $data = $request->only([
-            'title', 'cat_id', 'contents', 'is_show', 'keywords', 'description'
+            'title', 'cat_id', 'contents', 'is_show', 'is_sync', 'keywords', 'description'
         ]);
 
         $data['is_show'] = ($data['is_show'] ?? 0) ? 1 : 0;
+        $data['is_sync'] = ($data['is_sync'] ?? 0) ? 1 : 0;
         if ($ret = Post::newPostInstance($data)) {
             return redirect('/admin/post')->with('message', '新建成功');
         }
@@ -82,10 +83,11 @@ class PostController extends Controller
         }
 
         $data = $request->only([
-            'title', 'cat_id', 'contents', 'is_show', 'keywords', 'description'
+            'title', 'cat_id', 'contents', 'is_show', 'is_sync', 'keywords', 'description'
         ]);
 
         $data['is_show'] = ($data['is_show'] ?? 0) ? 1 : 0;
+        $data['is_sync'] = ($data['is_sync'] ?? 0) ? 1 : 0;
         if ($post->update($data)) {
             return back()->with('message', '新建成功');
         }

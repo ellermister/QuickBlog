@@ -19,7 +19,7 @@ class PostsSchemes extends Model
      */
     public static function createSchemes(Platforms $platform)
     {
-        $posts = Post::all();
+        $posts = Post::where('is_sync', 1)->get();
         $count = 0;
         foreach ($posts as $item) {
             $schemes = self::firstOrCreate([

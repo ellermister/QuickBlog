@@ -50,6 +50,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-form-label">允许同步</label>
+                        <div class="switch-button switch-button-success">
+                            @if(session('is_sync')??($post->is_sync??'1'))
+                                <input type="checkbox" checked="" name="is_sync" id="is_sync"><span><label for="is_sync"></label></span>
+                                @else
+                                <input type="checkbox" name="is_sync" id="is_sync"><span><label for="is_sync"></label></span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputDefault" class="col-form-label">关键词</label>
                         <input id="inputDefault" type="text" value="{{session('keywords')??($post->keywords??'')}}" class="form-control" name="keywords">
                     </div>
