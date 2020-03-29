@@ -90,7 +90,7 @@ class PostsController extends Controller
      */
     public function showPostDetail(Request $request, $id)
     {
-        $post = Post::getPost($id);
+        $post = Post::getGuestPostDetail($id);
         $archiveList = Post::getArchiveList();
         $category = Category::getShowList();
         $tags = Post::getTags();

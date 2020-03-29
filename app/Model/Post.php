@@ -116,6 +116,21 @@ class Post extends Model
     }
 
     /**
+     * 获取访客博文详情并增加阅览
+     * @param $id
+     * @return mixed
+     */
+    public static function getGuestPostDetail($id)
+    {
+        $post = self::getPost($id);
+        if ($post) {
+            $post->click++;
+            $post->save();
+        }
+        return $post;
+    }
+
+    /**
      * 获取标签
      * @return array
      */
