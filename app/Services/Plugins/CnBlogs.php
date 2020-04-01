@@ -14,6 +14,7 @@ use App\Services\Plugin;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\BadResponseException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -138,6 +139,11 @@ class CnBlogs extends Plugin
      */
     public function updateScheme(PostsSchemes $postsScheme)
     {
+        if($lastUpdate = Cache::get('cnblogs_lastupdate')){
+            if(time() - intval($lastUpdate) <= 60){
+                return "cnblogs一分钟只能发送一篇文章，其他任务将到下次推送";
+            }
+        }
         if($postsScheme->isWaitSyncStatus()){
             //等待同步
             $postsScheme->setSynching(); // 设置目前正在同步
@@ -159,6 +165,7 @@ class CnBlogs extends Plugin
                         $postsScheme->third_id = $res['id'];
                         $postsScheme->third_url = $res['url'];
                         $postsScheme->setSynced(); //设置已经同步完成
+                        Cache::put('cnblogs_lastupdate',time(),60);
                     }
                 }
             }catch (Exception $exception){
@@ -237,7 +244,6 @@ class CnBlogs extends Plugin
         } catch (ClientException $e) {
             $exceptionJson = \GuzzleHttp\json_decode($e->getResponse()->getBody()->getContents(),true);
             if (isset($exceptionJson['errors'])) {
-                dd($exceptionJson);
                 $error = "发表博文时同步时遇到错误：" . implode('',$exceptionJson['errors']);
             } else {
                 $error = "发表博文时同步时遇到错误，HTTP状态码：" . $e->getResponse()->getStatusCode()."message:".$e->getMessage();
