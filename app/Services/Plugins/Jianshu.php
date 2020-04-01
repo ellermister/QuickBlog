@@ -126,7 +126,7 @@ class Jianshu extends Plugin
             $categoryId = Arr::get($category,'id','0');
         }
 
-        $playload = [
+        $payload = [
             'autosave_control' => $this->getAutoSaveId($id, $categoryId) + 1,
             'content'          => $content,
             'title'            => $title,
@@ -136,7 +136,7 @@ class Jianshu extends Plugin
         $client = new Client();
         try {
             $response = $client->request('PUT', $url, [
-                'json' => $playload,
+                'json' => $payload,
                 'headers' => [
                     'content-type'=> 'application/json',
                     'Accept'=> 'application/json',
@@ -183,13 +183,13 @@ class Jianshu extends Plugin
         }
         $client = new Client();
         $url = "https://www.jianshu.com/author/notes";
-        $playload = [
+        $payload = [
             'at_bottom' => true,
             'notebook_id' => $noteBookId,// 分类ID 42826786
             'title' => $title,
         ];
         $response = $client->request('POST', $url, [
-            'json' => $playload,
+            'json' => $payload,
             'headers' => [
                 'content-type'=> 'application/json',
                 'Accept'=> 'application/json',
@@ -210,9 +210,9 @@ class Jianshu extends Plugin
     {
         $url = sprintf("https://www.jianshu.com/author/notes/%s/publicize", $id);
         $client = new Client();
-        $playload = [];
+        $payload = [];
         $response = $client->request('POST', $url, [
-            'json' => $playload,
+            'json' => $payload,
             'headers' => [
                 'content-type'=> 'application/json',
                 'Accept'=> 'application/json',
@@ -248,9 +248,9 @@ class Jianshu extends Plugin
     {
         $url = sprintf("https://www.jianshu.com/author/notebooks/%s/notes", $categoryId);
         $client = new Client();
-        $playload = [];
+        $payload = [];
         $response = $client->request('GET', $url, [
-            'json' => $playload,
+            'json' => $payload,
             'headers' => [
                 'content-type'=> 'application/json',
                 'Accept'=> 'application/json',

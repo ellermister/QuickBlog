@@ -89,15 +89,15 @@ class Csdn extends Plugin
      * 更新文章
      * @param $title
      * @param $content
-     * @param null $thirdUId
+     * @param null $thirdId
      * @return array
      */
-    protected function sendPost($title, $content, $thirdUId = null)
+    protected function sendPost($title, $content, $thirdId = null)
     {
         $url = "https://blog-console-api.csdn.net/v1/mdeditor/saveArticle";
         $client = new Client();
         $Parsedown = new Parsedown();
-        $playload = [
+        $payload = [
             'authorized_status' => false,
             'categories'        => '',
             'content'           => $Parsedown->text($content),
@@ -112,12 +112,12 @@ class Csdn extends Plugin
             'type'              => "original",
 
         ];
-        if($thirdUId){
-            $playload['id'] = $thirdUId;
+        if($thirdId){
+            $payload['id'] = $thirdId;
         }
         try {
             $response = $client->request('POST', $url, [
-                'json' => $playload,
+                'json' => $payload,
                 'headers' => [
                     'content-type'=> 'application/json',
                     'Cookie' => $this->getCookie(),
@@ -134,11 +134,6 @@ class Csdn extends Plugin
             Log::error($error);
             throw new Exception($error);
         }catch (BadResponseException $exception){
-            // 需要判断文章是否存在
-//            if ($exception->hasResponse()) {
-//                echo $url.PHP_EOL;
-//                var_dump($exception->getResponse()->getBody()->getContents());exit;
-//            }
             throw new Exception($exception->getMessage());
         }
         $response = $response->getBody();

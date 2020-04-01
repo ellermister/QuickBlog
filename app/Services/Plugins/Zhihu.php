@@ -254,16 +254,16 @@ class Zhihu extends Plugin
      */
     protected function updateDrafts($id, $content, $title = null)
     {
-        $playload = [
+        $payload = [
             'content'    => $content,
             'delta_time' => 1,
         ];
-        if (!empty($title)) $playload['title'] = $title;
+        if (!empty($title)) $payload['title'] = $title;
         $url = sprintf("https://zhuanlan.zhihu.com/api/articles/%s/draft", $id);
         $client = new Client();
         try {
             $response = $client->request('PATCH', $url, [
-                'json'    => $playload,
+                'json'    => $payload,
                 'headers' => [
                     'content-type' => 'application/json',
                     'Cookie'       => $this->getCookie(),
