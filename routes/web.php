@@ -17,6 +17,7 @@ Route::get('/hots', 'PostsController@showHotsPosts');
 Route::get('/category/{id}', 'PostsController@showCategoryPosts');
 Route::get('/post/{id}', 'PostsController@showPostDetail');
 Route::get('/archive/{date}', 'PostsController@showArchiveList');
+Route::get('/tag/{keyword}', 'PostsController@showKeywordPosts');
 Route::get('/about', 'AboutController@showPage');
 
 Route::get('/login', 'LoginController@showLoginPage')->name('login');

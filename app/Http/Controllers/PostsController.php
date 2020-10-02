@@ -128,4 +128,22 @@ class PostsController extends Controller
         ];
         return view('archive', $data);
     }
+
+    public function showKeywordPosts(Request $request,$keyword)
+    {
+        $posts = Post::getMatchedPostsForKeyword($keyword);
+        if(!$posts->count()){
+            abort(404);
+        }
+        $category = Category::getShowList();
+        $tags = Post::getTags();
+        $data = [
+            'posts'       => $posts,
+            'category'    => $category,
+            'tags'        => $tags,
+            'tab'         => 'keyword',
+            'keyword'     => $keyword,
+        ];
+        return view('index', $data);
+    }
 }

@@ -141,6 +141,7 @@ class Post extends Model
         foreach ($list as $item) {
             $words = array_merge($words, explode(',', $item['keywords']));
         }
+        $words = array_unique($words);
         return $words;
     }
 
@@ -152,6 +153,19 @@ class Post extends Model
     {
         $buffer = self::select(DB::raw('FROM_UNIXTIME(created_at,"%M %X") as date'))->groupBy("date")->get();
         return $buffer;
+    }
+
+    /**
+     * 获取关键词匹配文章
+     *
+     * @param string $keyword
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getMatchedPostsForKeyword(string  $keyword)
+    {
+        return self::query()->where('keywords','like', "%$keyword%")
+            ->orderBy("featured", 'DESC')
+            ->paginate(15);
     }
 
     /**

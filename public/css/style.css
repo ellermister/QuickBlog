@@ -854,6 +854,10 @@ RESPONSIVE
      color:#fff;
      text-decoration:none;
 }
+
+.tags-widget ul li a.active{
+    background-color: #ff8700;
+}
 /*----------------------------*\
 	archive
 \*----------------------------*/

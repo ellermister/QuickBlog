@@ -14,6 +14,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">标题</th>
+                            <th scope="col">浏览数</th>
                             <th scope="col">可视</th>
                             <th scope="col">精选</th>
                             <th scope="col">操作</th>
@@ -25,6 +26,7 @@
 
                                 <th scope="row">{{$item->id}}</th>
                                 <td>{{$item->title}}</td>
+                                <td style="text-align: right;">{{$item->click}}</td>
                                 <td>@if($item->is_show == 1)<i class="fas fa-eye"></i>@else<i class="fas fa-eye-slash"></i>@endif</td>
                                 <td>@if($item->featured == 0)<a href="/admin/post/{{$item->id}}/featured" class="btn btn-primary">设置精选</a>@else<a href="/admin/post/{{$item->id}}/featured" class="btn btn-dark">取消精选</a>@endif</td>
                                 <td>

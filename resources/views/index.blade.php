@@ -72,7 +72,7 @@
                         <div class="category-widget">
                             <ul>
                                 @foreach($category as $item)
-                                <li><a href="/category/{{$item->id}}" class="{{$item->getCatClass()}}">{{$item->name}}<span>{{$item->count}}</span></a></li>
+                                    <li><a href="/category/{{$item->id}}" class="{{$item->getCatClass()}}">{{$item->name}}<span>{{$item->count}}</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -84,7 +84,12 @@
                         <div class="tags-widget">
                             <ul>
                                 @foreach($tags as $tag)
-                                <li><a href="/tag/{{$tag}}">{{$tag}}</a></li>
+                                    @if($tab == "keyword" && $keyword == $tag)
+                                        <li><a href="/tag/{{$tag}}" class="active">{{$tag}}</a></li>
+                                    @else
+                                        <li><a href="/tag/{{$tag}}">{{$tag}}</a></li>
+                                    @endif
+
                                 @endforeach
                             </ul>
                         </div>
