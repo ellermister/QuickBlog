@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Post extends Model
 {
     protected $dateFormat = 'U';
-    protected $fillable = ['title', 'keywords', 'description', 'contents', 'post_img', 'category', 'cat_id', 'is_show','is_sync'];
+    protected $fillable = ['title', 'keywords', 'description', 'contents', 'post_img', 'category', 'cat_id', 'is_show','is_sync','is_original'];
 
 
     /**
@@ -28,6 +28,17 @@ class Post extends Model
      * @return mixed
      */
     public static function getListForPage($isShow = null)
+    {
+        if (!is_null($isShow)) {
+            return self::where('is_show', $isShow)->orderBy('created_at', 'DESC')->paginate(15);
+        }
+        return self::orderBy('created_at', 'DESC')->paginate(15);
+    }
+    /**
+     * 获取博文列表(含分页)
+     * @return mixed
+     */
+    public static function getListForPageWithGuest($isShow = null)
     {
         if (!is_null($isShow)) {
             return self::where('is_show', $isShow)->orderBy('created_at', 'DESC')->paginate(15);
@@ -65,7 +76,8 @@ class Post extends Model
      */
     public static function getMostRead($limit = 5)
     {
-        return self::where("is_show", 1)->orderBy("click", 'DESC')->limit($limit)->get();
+        return self::where("is_show", 1)
+            ->orderBy("click", 'DESC')->limit($limit)->get();
     }
 
     /**
@@ -76,7 +88,9 @@ class Post extends Model
     public static function getFeaturedPosts($limit = 2)
     {
         // 精选按最新加入精选的时间排序
-        return self::where("is_show", 1)->where('featured', '>', 0)->orderBy("featured", 'DESC')->limit($limit)->get();
+        return self::where("is_show", 1)->where('featured', '>', 0)->orderBy("featured", 'DESC')
+            ->where('is_show',1)
+            ->limit($limit)->get();
     }
 
     /**
@@ -89,6 +103,7 @@ class Post extends Model
         $dateBegin = strtotime(date('Y-m-1 0:0:0', strtotime($dateText)));
         $dateEnd = strtotime('+1 month', strtotime($dateText));
         return self::where("is_show", 1)->where('created_at', '>=', $dateBegin)->where('created_at', '<', $dateEnd)
+            ->where('is_show',1)
             ->orderBy("featured", 'DESC')->paginate(15);
     }
 
@@ -164,6 +179,7 @@ class Post extends Model
     public static function getMatchedPostsForKeyword(string  $keyword)
     {
         return self::query()->where('keywords','like', "%$keyword%")
+            ->where('is_show',1)
             ->orderBy("featured", 'DESC')
             ->paginate(15);
     }

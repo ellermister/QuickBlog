@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function showIndexPage()
     {
-        $posts = Post::getListForPage(1);
+        $posts = Post::getListForPageWithGuest(1);
         $category = Category::getShowList();
         $tags = Post::getTags();
         $data = [
