@@ -13,12 +13,27 @@
                     <li class="nav-divider">
                         控制中心
                     </li>
+                    @if($currentUser->isAdmin())
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-rocket"></i>第三方平台</a>
                         <div id="submenu-1" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="/admin/platforms">平台管理</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-user-manage" aria-controls="submenu-user-manage"><i class="fa fa-fw fa-rocket"></i>用户管理</a>
+                        <div id="submenu-user-manage" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/user/new">新用户</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/user">用户列表</a>
                                 </li>
                             </ul>
                         </div>
@@ -39,6 +54,7 @@
                             </ul>
                         </div>
                     </li>
+                    @if($currentUser->isAdmin())
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fa fa-fw fa-rocket"></i>系统管理</a>
                         <div id="submenu-3" class="collapse submenu" style="">
@@ -55,6 +71,7 @@
                             </ul>
                         </div>
                     </li>
+                    @endif
                 </ul>
             </div>
         </nav>

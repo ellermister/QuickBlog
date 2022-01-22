@@ -30,9 +30,9 @@ class Post extends Model
     public static function getListForPage($isShow = null)
     {
         if (!is_null($isShow)) {
-            return self::where('is_show', $isShow)->orderBy('created_at', 'DESC')->paginate(15);
+            return self::where('is_show', $isShow)->orderBy('id', 'DESC')->paginate(15);
         }
-        return self::orderBy('created_at', 'DESC')->paginate(15);
+        return self::orderBy('id', 'DESC')->paginate(15);
     }
     /**
      * 获取博文列表(含分页)

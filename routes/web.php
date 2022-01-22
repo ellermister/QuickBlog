@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,15 +23,22 @@ Route::get('/tag/{keyword}', 'PostsController@showKeywordPosts');
 Route::get('/about', 'AboutController@showPage');
 
 Route::get('/login', 'LoginController@showLoginPage')->name('login');
+Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::post('/login', 'LoginController@verifyLogin');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function () {
     Route::get('/platforms', 'Admin\PlatformsController@showListPage')->name('dashboard');
     Route::get('/platforms/{id}/account', 'Admin\PlatformsController@showAccountPage');
     Route::post('/platforms/{id}/account', 'Admin\PlatformsController@updateAccount');
     Route::get('/platforms/{id}/sync', 'Admin\PlatformsController@createSchemes');
     Route::post('/platforms/{id}/category/union', 'Admin\PlatformsController@createUnionCategory');
     Route::get('/platforms/{id}/category/union', 'Admin\PlatformsController@getUnionCategoryList');
+
+    Route::get('/user', 'Admin\UserController@showUserListPage');
+    Route::get('/user/new', 'Admin\UserController@showNewUserPage');
+    Route::post('/user/new', 'Admin\UserController@newUserInstance');
+    Route::get('/user/{id}', 'Admin\UserController@showUserProfile');
+    Route::post('/user/{id}', 'Admin\UserController@updateUser');
 
     Route::get('/post/{id}/featured', 'Admin\PostController@ActiveFeatured');
     Route::get('/post', 'Admin\PostController@showPostList');
@@ -50,12 +59,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web','auth']], function (){
     Route::get('/category/{id}', 'Admin\CategoryController@showEditorPageWithCategory');
     Route::post('/category/{id}', 'Admin\CategoryController@updateCategoryInstance');
 
-    Route::get('/log', 'Admin\SchemesLogController@showLog');
-    Route::get('/log/clear', 'Admin\SchemesLogController@clearLog');
+    Route::group(['middleware' => 'auth.admin'], function () {
+        Route::get('/log', 'Admin\SchemesLogController@showLog');
+        Route::get('/log/clear', 'Admin\SchemesLogController@clearLog');
 
-    Route::get('/helper', 'Admin\HelperController@showInfo');
+        Route::get('/helper', 'Admin\HelperController@showInfo');
 
-    Route::get('/setting', 'Admin\SettingController@showSettingPage');
-    Route::post('/setting', 'Admin\SettingController@updateSetting');
+        Route::get('/setting', 'Admin\SettingController@showSettingPage');
+        Route::post('/setting', 'Admin\SettingController@updateSetting');
+    });
 });
 

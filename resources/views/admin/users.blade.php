@@ -7,36 +7,44 @@
         <!-- ============================================================== -->
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">博文列表</h5>
+                <h5 class="card-header">用户列表</h5>
                 <div class="card-body">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">标题</th>
-                            <th scope="col">浏览数</th>
-                            <th scope="col">可视</th>
-                            <th scope="col">精选</th>
+                            <th scope="col">头像</th>
+                            <th scope="col">名字</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">最后登录时间</th>
+                            @if($currentUser->isAdmin())
+                            <th scope="col">IP</th>
+                            @endif
                             <th scope="col">操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($posts as $item)
+                        @foreach($users as $item)
                             <tr>
 
                                 <th scope="row">{{$item->id}}</th>
-                                <td>{{$item->title}}</td>
-                                <td style="text-align: right;">{{$item->click}}</td>
-                                <td>@if($item->is_show == 1)<i class="fas fa-eye"></i>@else<i class="fas fa-eye-slash"></i>@endif</td>
-                                <td>@if($item->featured == 0)<a href="/admin/post/{{$item->id}}/featured" class="btn btn-primary">设置精选</a>@else<a href="/admin/post/{{$item->id}}/featured" class="btn btn-dark">取消精选</a>@endif</td>
                                 <td>
-                                    <a href="/post/{{$item->id}}" target="_blank" class="btn btn-brand">预览</a>
-                                    @if($currentUser->isAdmin() || $item->creator_id == $currentUser->id)
-                                    <a href="/admin/post/{{$item->id}}" class="btn btn-success">编辑</a>
-                                    <a href="javascript:void(0)" onclick="deletePost(this)" data-id="{{$item->id}}" class="btn btn-dark">删除</a>
+                                    @if($item->avatar)
+                                        <img src="{{$item->avatar}}" style="width: 48px;height:48px">
                                     @endif
                                 </td>
-
+                                <td>{{$item->name}}</td>
+                                <td style="text-align: left;">{{$item->email}}</td>
+                                <td style="text-align: left;">{{ date('Y-m-d H:i', $item->last_time) }}</td>
+                                @if($currentUser->isAdmin())
+                                    <td style="text-align: left;">{{ $item->last_ip }}</td>
+                                @endif
+                                @if($currentUser->isAdmin() || $item->id == $currentUser->id)
+                                <td>
+                                    <a href="/admin/user/{{$item->id}}" class="btn btn-success">编辑</a>
+                                    <a href="javascript:void(0)" onclick="deletePost(this)" data-id="{{$item->id}}" class="btn btn-dark">删除</a>
+                                </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
@@ -45,7 +53,7 @@
             </div>
         </div>
 
-        {{$posts->links()}}
+        {{$users->links()}}
     </div>
 @endsection
 

@@ -6,6 +6,7 @@ use App\Model\Category;
 use App\Model\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Parsedown;
 use League\HTMLToMarkdown\HtmlConverter;
 use Illuminate\Support\Facades\Storage;
@@ -79,7 +80,12 @@ class PostController extends Controller
     {
         $post = Post::getPost($id);
         if (!$post) {
-            return abort(404);
+            abort(404);
+        }
+
+        $user = Auth::user();
+        if(!$user->isAdmin() && $post->creator_id != $user->id){
+            abort(403);
         }
 
         $data = $request->only([
@@ -104,7 +110,7 @@ class PostController extends Controller
     {
         $post = Post::getPost($id);
         if (!$post) {
-            return abort(404);
+            abort(404);
         }
 
         if ($post->deleteAndUnion()) {

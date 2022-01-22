@@ -44,7 +44,8 @@ class AdminCreate extends Command
             if(User::create([
                 'name' => 'admin',
                 'email' => $email,
-                'password' => bcrypt($pass)
+                'password' => bcrypt($pass),
+                'is_admin' => 1,
             ])){
                 $this->info('>>新建管理员成功<<');
                 $this->info(sprintf('用户名：%s', $email));

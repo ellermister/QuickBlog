@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -16,8 +17,18 @@ class LoginController extends Controller
     {
         $input = $request->only(['email','password']);
         if(Auth::attempt($input)){
+            $user = Auth::user();
+            $user->last_ip = $request->getClientIp();
+            $user->last_time = time();
+            $user->save();
             return redirect()->route('dashboard');
         }
         return redirect()->back()->withErrors(['error' => '用户名或者密码错误哦'])->withInput();;
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 }
